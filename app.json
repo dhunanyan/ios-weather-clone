@@ -1,13 +1,32 @@
 {
   "expo": {
+    "name": "Weather",
+    "slug": "weather",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/logo.png",
     "scheme": "acme",
-    "web": {
-      "bundler": "metro"
+    "plugins": ["expo-router"],
+    "splash": {
+      "image": "./assets/images/loading.gif",
+      "resizeMode": "contain",
+      "backgroundColor": "#282a36"
     },
-    "plugins": [
-      "expo-router"
-    ],
-    "name": "weather",
-    "slug": "weather"
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/images/logo.png"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }
