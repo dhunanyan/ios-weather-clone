@@ -14,7 +14,8 @@ export const SECTION_TYPES = {
 
 const parseToMainSection = (data: WeatherType): MainSectionDataType => ({
   location: data.location,
-  description: data.description,
+  description: data.days[0].description,
+  conditions: data.days[0].conditions,
   temp: data.days[0].temp,
   minTemp: data.days[0].minTemp,
   maxTemp: data.days[0].maxTemp,

@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Footer } from "../Footer";
 import { Sections } from "../Sections";
 
+import { LOCATIONS } from "@/data";
 import { COLORS, IMAGES } from "@/config";
 import { LocationType } from "@/types";
 import { styling } from "./styles";
@@ -21,11 +22,6 @@ export const HomeScreen = () => {
   const { width, height } = Dimensions.get("window");
 
   const styles = styling(width, height);
-
-  const LOCATIONS = [
-    { id: "london", location: "London" },
-    { id: "warsaw", location: "Warsaw" },
-  ];
 
   const onViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken<LocationType>[] }) => {

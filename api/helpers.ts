@@ -4,7 +4,6 @@ export const parseWeatherResponse = (
   obj: WeatherResponseType
 ): WeatherType => ({
   location: obj.address,
-  description: obj.description,
   days: obj.days.map((day) => ({
     dayOfWeek: new Date(day.datetime).toString().split(" ")[0] + ".",
     dateTime: day.datetime,

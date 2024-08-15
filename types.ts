@@ -50,6 +50,5 @@ export type WeatherDayType = {
 
 export type WeatherType = {
   location: string;
-  description: string;
   days: WeatherDayType[];
 };

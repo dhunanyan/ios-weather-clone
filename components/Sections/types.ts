@@ -3,6 +3,7 @@ import { WeatherHourType, WeatherDayType } from "@/types";
 export type MainSectionDataType = {
   location: string;
   description: string;
+  conditions: string;
   temp: number;
   minTemp: number;
   maxTemp: number;

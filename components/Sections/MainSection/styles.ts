@@ -17,9 +17,9 @@ export const styles = StyleSheet.create({
   },
   temp: {
     color: COLORS.dark.title,
-    fontSize: 86,
+    fontSize: 100,
     fontWeight: 300,
-    lineHeight: 86,
+    lineHeight: 100,
     textAlign: "center",
     marginTop: 10,
   },
@@ -28,6 +28,13 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.dark.subtitle,
     maxWidth: "80%",
+  },
+  conditions: {},
+  line: {
+    marginVertical: 15,
+    height: 2,
+    width: 45,
+    backgroundColor: COLORS.dark.title,
   },
   range: {
     textAlign: "center",
