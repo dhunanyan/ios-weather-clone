@@ -1,9 +1,10 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { FOOTER_HEIGHT } from "@/config";
 
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgba(255, 255, 255, 0.15)",
-    height: Platform.OS === "ios" ? 44 + 36 : 44,
+    height: FOOTER_HEIGHT,
     width: "100%",
     alignItems: "flex-start",
     justifyContent: "space-between",
@@ -11,6 +12,8 @@ export const styles = StyleSheet.create({
     resizeMode: "contain",
     paddingLeft: 30,
     paddingRight: 30,
+    borderTopWidth: 1,
+    borderTopColor: "#bbb",
   },
   mapButton: {
     paddingTop: 10,

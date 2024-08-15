@@ -66,7 +66,7 @@ export const Sections = ({ location }: SectionsPropsType) => {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.scrollView}>
+        <View>
           <ActivityIndicator size="large" color={COLORS.dark.title} />
         </View>
       </SafeAreaView>
@@ -76,7 +76,7 @@ export const Sections = ({ location }: SectionsPropsType) => {
   if (isError || data === null) {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.scrollView}>
+        <View>
           <Text>Something went wrong</Text>
         </View>
       </SafeAreaView>
@@ -85,8 +85,9 @@ export const Sections = ({ location }: SectionsPropsType) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.scrollView}>
+      <View>
         <SectionList
+          showsVerticalScrollIndicator={false}
           style={styles.sectionList}
           sections={getSections(data)}
           renderItem={({ section: { data, type } }) =>

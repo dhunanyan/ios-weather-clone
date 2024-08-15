@@ -1,4 +1,4 @@
-import { ImageSourcePropType } from "react-native";
+import { ImageSourcePropType, Platform } from "react-native";
 
 import left from "./assets/images/left.png";
 import profile from "./assets/images/profile.png";
@@ -56,3 +56,5 @@ export const ICONS = {
   "clear-day": clearDay,
   "clear-night": clearNight,
 } as ImagesType;
+
+export const FOOTER_HEIGHT = Platform.OS === "ios" ? 44 + 36 : 44;
