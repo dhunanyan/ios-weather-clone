@@ -61,4 +61,10 @@ export const sliderStyling = (index: number) =>
       fontWeight: 700,
       color: COLORS.dark.subtitle,
     },
+    text: {
+      fontFamily: "DMSansBold",
+      fontSize: 18,
+      fontWeight: 700,
+      color: COLORS.dark.subtitle,
+    },
   });

@@ -14,11 +14,8 @@ export const SECTION_TYPES = {
 
 const parseToMainSection = (data: WeatherType): MainSectionDataType => ({
   location: data.location,
-  description: data.days[0].description,
-  conditions: data.days[0].conditions,
+  description: `From ${data.days[0].minTemp}° to ${data.days[0].maxTemp}° ${data.days[0].description}`,
   temp: data.days[0].temp,
-  minTemp: data.days[0].minTemp,
-  maxTemp: data.days[0].maxTemp,
 });
 
 const parseToDaySection = (data: WeatherType): DaySectionDataType => ({
@@ -32,14 +29,42 @@ const parseToDaySection = (data: WeatherType): DaySectionDataType => ({
   })),
 });
 
-const parseToHourSection = (data: WeatherType): HourSectionDataType => ({
-  title: data.days[0].description,
-  hours: data.days[0].hours.map((hour) => ({
-    time: hour.time,
-    temp: hour.temp,
-    icon: hour.icon,
-  })),
-});
+const parseToHourSection = (data: WeatherType): HourSectionDataType => {
+  const hours: HourSectionDataType["hours"] = data.days[0].hours.map(
+    (hour) => ({
+      time: hour.time,
+      temp: hour.temp,
+      icon: hour.icon,
+      text: undefined,
+    })
+  );
+
+  const sunrise = {
+    time: data.days[0].sunrise,
+    temp: undefined,
+    text: "Sunrise",
+    icon: "sunrise",
+  };
+  const sunset = {
+    time: data.days[0].sunset,
+    temp: undefined,
+    text: "Sunset",
+    icon: "sunrise",
+  };
+
+  const sunriseIndex =
+    hours.findIndex((hour) => hour.time === sunrise.time.split(":")[0]) + 1;
+  hours.splice(sunriseIndex, 0, sunrise);
+
+  const sunsetIndex =
+    hours.findIndex((hour) => hour.time === sunset.time.split(":")[0]) + 1;
+  hours.splice(sunsetIndex, 0, sunset);
+
+  return {
+    title: data.days[0].conditions,
+    hours: hours,
+  };
+};
 
 export const getSections = (data: WeatherType): SectionType => [
   {

@@ -6,7 +6,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 65,
+    marginTop: 65,
+    marginBottom: 40,
   },
   location: {
     color: COLORS.dark.title,
@@ -28,17 +29,6 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.dark.subtitle,
     maxWidth: "80%",
-  },
-  conditions: {},
-  line: {
-    marginVertical: 15,
-    height: 2,
-    width: 45,
-    backgroundColor: COLORS.dark.title,
-  },
-  range: {
-    textAlign: "center",
-    fontSize: 18,
-    color: COLORS.dark.subtitle,
+    marginTop: -5,
   },
 });

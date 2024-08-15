@@ -33,7 +33,8 @@ export const HourSection = ({ data }: HourSectionPropsType) => (
                 resizeMode="contain"
               />
             </View>
-            <Text style={sliderStyles.temp}>{item.temp}°</Text>
+            {item.temp && <Text style={sliderStyles.temp}>{item.temp}°</Text>}
+            {item.text && <Text style={sliderStyles.text}>{item.text}</Text>}
           </View>
         );
       }}

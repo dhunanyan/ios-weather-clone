@@ -4,6 +4,8 @@ import left from "./assets/images/left.png";
 import profile from "./assets/images/profile.png";
 import background from "./assets/images/background.jpg";
 
+import sunrise from "./assets/images/weather/sunrise.png";
+import sunset from "./assets/images/weather/sunset.png";
 import clearDay from "./assets/images/weather/clear-day.png";
 import clearNight from "./assets/images/weather/clear-night.png";
 import cloudy from "./assets/images/weather/cloudy.png";
@@ -46,6 +48,8 @@ export const IMAGES = {
 } as ImagesType;
 
 export const ICONS = {
+  sunrise: sunrise,
+  sunset: sunset,
   snow: snow,
   rain: rain,
   fog: fog,
