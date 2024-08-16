@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   ImageBackground,
+  ScrollView,
   StatusBar,
   ViewToken,
 } from "react-native";
@@ -12,7 +13,7 @@ import { Footer } from "../Footer";
 import { Sections } from "../Sections";
 
 import { LOCATIONS } from "@/data";
-import { COLORS, IMAGES } from "@/config";
+import { COLORS, FOOTER_HEIGHT, IMAGES } from "@/config";
 import { LocationType } from "@/types";
 import { styling } from "./styles";
 
@@ -54,7 +55,9 @@ export const HomeScreen = () => {
           style={{ height: "100%" }}
           data={LOCATIONS}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={{ height: height * 0.75 }}
+          contentContainerStyle={{
+            height: height - FOOTER_HEIGHT,
+          }}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => <Sections location={item.location} />}
           horizontal

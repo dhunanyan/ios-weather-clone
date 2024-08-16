@@ -11,12 +11,12 @@ export const styles = StyleSheet.create({
   sectionList: {
     padding: 16,
     minWidth: "100%",
-    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT - 48,
+    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT,
   },
   activityIndicatorContainer: {
     padding: 16,
     minWidth: "100%",
-    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT - 48,
+    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT,
     flex: 1,
     alignContent: "center",
     justifyContent: "center",
@@ -24,6 +24,6 @@ export const styles = StyleSheet.create({
   errorTextContainer: {
     padding: 16,
     minWidth: "100%",
-    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT - 48,
+    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT,
   },
 });
