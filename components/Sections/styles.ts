@@ -5,11 +5,25 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: StatusBar.currentHeight,
+    maxWidth: Dimensions.get("window").width,
     zIndex: 1,
   },
   sectionList: {
     padding: 16,
-    maxWidth: Dimensions.get("window").width,
+    minWidth: "100%",
+    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT - 48,
+  },
+  activityIndicatorContainer: {
+    padding: 16,
+    minWidth: "100%",
+    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT - 48,
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  errorTextContainer: {
+    padding: 16,
+    minWidth: "100%",
     minHeight: Dimensions.get("window").height - FOOTER_HEIGHT - 48,
   },
 });

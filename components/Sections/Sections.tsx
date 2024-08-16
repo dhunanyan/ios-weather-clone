@@ -66,7 +66,7 @@ export const Sections = ({ location }: SectionsPropsType) => {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.container}>
-        <View>
+        <View style={styles.activityIndicatorContainer}>
           <ActivityIndicator size="large" color={COLORS.dark.title} />
         </View>
       </SafeAreaView>
@@ -76,7 +76,7 @@ export const Sections = ({ location }: SectionsPropsType) => {
   if (isError || data === null) {
     return (
       <SafeAreaView style={styles.container}>
-        <View>
+        <View style={styles.errorTextContainer}>
           <Text>Something went wrong</Text>
         </View>
       </SafeAreaView>
