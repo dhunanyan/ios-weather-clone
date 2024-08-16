@@ -1,1 +1,2 @@
-export { HomeScreen } from "./HomeScreen";
+export { Footer } from "./Footer";
+export { Sections } from "./Sections";

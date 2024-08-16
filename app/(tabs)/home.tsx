@@ -1,6 +1,6 @@
 import React from "react";
 
-import { HomeScreen } from "@/components";
+import { HomeScreen } from "@/screens";
 
 export default () => {
   return <HomeScreen />;

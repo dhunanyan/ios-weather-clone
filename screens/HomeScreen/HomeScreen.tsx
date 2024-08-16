@@ -3,14 +3,13 @@ import {
   Dimensions,
   FlatList,
   ImageBackground,
-  ScrollView,
   StatusBar,
   ViewToken,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Footer } from "../Footer";
-import { Sections } from "../Sections";
+import { Footer } from "@/components/Footer";
+import { Sections } from "@/components/Sections";
 
 import { LOCATIONS } from "@/data";
 import { COLORS, FOOTER_HEIGHT, IMAGES } from "@/config";
