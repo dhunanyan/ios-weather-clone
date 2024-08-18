@@ -4,13 +4,9 @@ import {
   HourSectionDataType,
   DynamicHeaderDataType,
   SectionsType,
+  AlertSectionDataType,
+  SECTION_TYPES,
 } from "./types";
-
-export const SECTION_TYPES = {
-  HOUR_SECTION: "HOUR_SECTION",
-  BLANK_SECTION: "BLANK_SECTION",
-  DAY_SECTION: "DAY_SECTION",
-};
 
 export const parseToDynamicHeader = ({
   location,
@@ -22,9 +18,22 @@ export const parseToDynamicHeader = ({
   temp,
 });
 
-export const parseToDaySection = (data: WeatherType): DaySectionDataType => ({
-  title: `Forecast ${data.days.length} Days`,
-  days: data.days.map(({ dayOfWeek, dateTime, icon, minTemp, maxTemp }) => ({
+export const parseToAlertSection = ({
+  alerts,
+}: WeatherType): AlertSectionDataType => ({
+  alerts: alerts.map(({ title, description, info, id }) => ({
+    title,
+    description,
+    info,
+    id,
+  })),
+});
+
+export const parseToDaySection = ({
+  days,
+}: WeatherType): DaySectionDataType => ({
+  title: `Forecast ${days.length} Days`,
+  days: days.map(({ dayOfWeek, dateTime, icon, minTemp, maxTemp }) => ({
     dayOfWeek: dayOfWeek,
     dateTime: dateTime,
     icon: icon,
@@ -79,6 +88,10 @@ export const parseSections = (data: WeatherType): SectionsType => [
   {
     type: SECTION_TYPES.BLANK_SECTION,
     data: [{}],
+  },
+  {
+    type: SECTION_TYPES.ALERT_SECTION,
+    data: [parseToAlertSection(data)],
   },
   {
     type: SECTION_TYPES.HOUR_SECTION,

@@ -1,8 +1,19 @@
+export type BlankSectionDataType = {};
+
 export type DynamicHeaderDataType = {
   location: string;
   description: string;
   shortenDescription: string;
   temp: number;
+};
+
+export type AlertSectionDataType = {
+  alerts: Array<{
+    title: string;
+    description: string;
+    info: string;
+    id: string;
+  }>;
 };
 
 export type HourSectionDataType = {
@@ -21,15 +32,21 @@ export type DaySectionDataType = {
   }>;
 };
 
-export type BlankSectionDataType = {};
-
 export type SectionDataType =
+  | BlankSectionDataType
+  | AlertSectionDataType
   | HourSectionDataType
   | DaySectionDataType
-  | BlankSectionDataType
   | null;
 
 export type SectionsType = {
   type: string;
   data: SectionDataType[];
 }[];
+
+export const SECTION_TYPES = {
+  HOUR_SECTION: "HOUR_SECTION",
+  ALERT_SECTION: "ALERT_SECTION",
+  BLANK_SECTION: "BLANK_SECTION",
+  DAY_SECTION: "DAY_SECTION",
+};

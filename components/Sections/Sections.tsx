@@ -16,18 +16,21 @@ import { BlankSection } from "./BlankSection";
 import { HourSection } from "./HourSection";
 import { DaySection } from "./DaySection";
 
-import { parseSections, parseToDynamicHeader, SECTION_TYPES } from "./helpers";
+import { parseSections, parseToDynamicHeader } from "./parser";
 import { COLORS } from "@/config";
 
-import type {
-  DaySectionDataType,
-  DynamicHeaderDataType,
-  HourSectionDataType,
-  SectionDataType,
-  SectionsType,
+import {
+  AlertSectionDataType,
+  SECTION_TYPES,
+  type DaySectionDataType,
+  type DynamicHeaderDataType,
+  type HourSectionDataType,
+  type SectionDataType,
+  type SectionsType,
 } from "./types";
 import type { WeatherType } from "@/types";
 import { styles } from "./styles";
+import { AlertSection } from "./AlertSection";
 
 export type SectionsPropsType = {
   location: string;
@@ -37,6 +40,8 @@ const renderSectionItem = (data: SectionDataType, type: string) => {
   switch (type) {
     case SECTION_TYPES.BLANK_SECTION:
       return <BlankSection />;
+    case SECTION_TYPES.ALERT_SECTION:
+      return <AlertSection data={data as AlertSectionDataType} />;
     case SECTION_TYPES.HOUR_SECTION:
       return <HourSection data={data as HourSectionDataType} />;
     case SECTION_TYPES.DAY_SECTION:

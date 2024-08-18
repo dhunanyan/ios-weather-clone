@@ -20,12 +20,20 @@ type WeatherResponseDayType = {
   hours: WeatherResponseHourType[];
 };
 
+type WeatherResponseAlertType = {
+  event: string;
+  headline: string;
+  description: string;
+  id: string;
+};
+
 export type WeatherResponseType = {
   resolvedAddress: string;
   address: string;
   timezone: string;
   description: string;
   days: WeatherResponseDayType[];
+  alerts: WeatherResponseAlertType[];
 };
 
 export type WeatherHourType = {
@@ -48,7 +56,15 @@ export type WeatherDayType = {
   hours: WeatherHourType[];
 };
 
+export type WeatherAlertType = {
+  title: string;
+  description: string;
+  info: string;
+  id: string;
+};
+
 export type WeatherType = {
   location: string;
   days: WeatherDayType[];
+  alerts: WeatherAlertType[];
 };
