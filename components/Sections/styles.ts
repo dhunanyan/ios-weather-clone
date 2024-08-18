@@ -6,13 +6,13 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: StatusBar.currentHeight as number,
     maxWidth: Dimensions.get("window").width,
-    position: "relative",
     zIndex: 1,
   },
   sectionList: {
     padding: 16,
+    marginTop: HEADER_OFFSET,
     minWidth: "100%",
-    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT,
+    minHeight: Dimensions.get("window").height - FOOTER_HEIGHT - HEADER_OFFSET,
   },
   activityIndicatorContainer: {
     padding: 16,

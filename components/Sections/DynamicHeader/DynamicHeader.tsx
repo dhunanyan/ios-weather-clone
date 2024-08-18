@@ -3,7 +3,6 @@ import { Animated, Text } from "react-native";
 
 import { DynamicHeaderDataType } from "../types";
 import { styles } from "./styles";
-import { HEADER_OFFSET } from "@/config";
 
 export type DynamicHeaderPropsType = {
   data: DynamicHeaderDataType;
@@ -14,55 +13,45 @@ export const DynamicHeader = ({
   data,
   animatedValue,
 }: DynamicHeaderPropsType) => {
-  const {
-    opacityDescription,
-    opacityTemp,
-    translateHeader,
-    opacityShortenDescription,
-    translateShortenDescription,
-  } = React.useMemo(() => {
-    return {
-      opacityDescription: animatedValue.interpolate({
-        inputRange: [0, 20],
-        outputRange: [1, 0],
+  const animate = React.useMemo(
+    () => (y1: number, y2: number, start: number, end: number) =>
+      animatedValue.interpolate({
+        inputRange: [y1, y2],
+        outputRange: [start, end],
         extrapolate: "clamp",
       }),
-      opacityTemp: animatedValue.interpolate({
-        inputRange: [80, 130],
-        outputRange: [1, 0],
-        extrapolate: "clamp",
-      }),
-      translateHeader: animatedValue.interpolate({
-        inputRange: [0, 200],
-        outputRange: [0, -HEADER_OFFSET],
-        extrapolate: "clamp",
-      }),
-      opacityShortenDescription: animatedValue.interpolate({
-        inputRange: [170, 200],
-        outputRange: [0, 1],
-        extrapolate: "clamp",
-      }),
-      translateShortenDescription: animatedValue.interpolate({
-        inputRange: [160, 200],
-        outputRange: [-170, -185],
-        extrapolate: "clamp",
-      }),
-    };
-  }, [animatedValue]);
+    [animatedValue]
+  );
 
   return (
-    <Animated.View
-      style={[
-        styles.container,
-        { transform: [{ translateY: translateHeader }] },
-      ]}
-    >
-      <Animated.Text style={[styles.location]}>{data.location}</Animated.Text>
-      <Animated.Text style={[styles.temp, { opacity: opacityTemp }]}>
+    <Animated.View style={[styles.container, { top: animate(0, 80, 80, 30) }]}>
+      <Animated.Text
+        style={[
+          styles.location,
+          { transform: [{ translateY: animate(0, 120, 25, 0) }] },
+        ]}
+      >
+        {data.location}
+      </Animated.Text>
+      <Animated.Text
+        style={[
+          styles.temp,
+          {
+            opacity: animate(80, 120, 1, 0),
+            transform: [{ translateY: animate(0, 120, 20, 0) }],
+          },
+        ]}
+      >
         {data.temp}°
       </Animated.Text>
       <Animated.Text
-        style={[styles.description, { opacity: opacityDescription }]}
+        style={[
+          styles.description,
+          {
+            opacity: animate(0, 50, 1, 0),
+            transform: [{ translateY: animate(0, 120, 15, 0) }],
+          },
+        ]}
       >
         {data.description}
       </Animated.Text>
@@ -70,8 +59,8 @@ export const DynamicHeader = ({
         style={[
           styles.shortenDescription,
           {
-            opacity: opacityShortenDescription,
-            transform: [{ translateY: translateShortenDescription }],
+            opacity: animate(170, 200, 0, 1),
+            transform: [{ translateY: animate(160, 200, -165, -170) }],
           },
         ]}
       >

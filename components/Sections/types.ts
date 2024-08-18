@@ -21,10 +21,12 @@ export type DaySectionDataType = {
   }>;
 };
 
+export type BlankSectionDataType = {};
+
 export type SectionDataType =
-  | DynamicHeaderDataType
   | HourSectionDataType
   | DaySectionDataType
+  | BlankSectionDataType
   | null;
 
 export type SectionsType = {

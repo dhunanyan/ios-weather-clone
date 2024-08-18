@@ -76,7 +76,6 @@ export const sliderStyling = (isFirstIndex: boolean, isLastIndex: boolean) =>
       height: 5,
       borderRadius: 5,
       marginHorizontal: 7,
-      // opacity: 0.2,
     },
     minTemp: {
       fontFamily: "DMSansBold",

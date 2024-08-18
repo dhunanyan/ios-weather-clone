@@ -6,10 +6,9 @@ export const styles = StyleSheet.create({
     zIndex: 2,
     justifyContent: "flex-start",
     alignItems: "center",
+    position: "absolute",
     left: 0,
     right: 0,
-    pointerEvents: "none",
-    overflow: "hidden",
   },
   location: {
     color: COLORS.dark.title,
@@ -30,7 +29,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     color: COLORS.dark.subtitle,
-    marginVertical: 5,
+    marginTop: 10,
   },
   description: {
     textAlign: "center",

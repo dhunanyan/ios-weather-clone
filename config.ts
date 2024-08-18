@@ -62,4 +62,4 @@ export const ICONS = {
 } as ImagesType;
 
 export const FOOTER_HEIGHT = Platform.OS === "ios" ? 44 + 36 : 44;
-export const HEADER_OFFSET = 50;
+export const HEADER_OFFSET = 110;

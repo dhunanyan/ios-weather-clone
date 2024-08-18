@@ -11,8 +11,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { getWeather } from "@/api";
 
-import { HourSection } from "./HourSection";
 import { DynamicHeader } from "./DynamicHeader";
+import { BlankSection } from "./BlankSection";
+import { HourSection } from "./HourSection";
 import { DaySection } from "./DaySection";
 
 import { parseSections, parseToDynamicHeader, SECTION_TYPES } from "./helpers";
@@ -34,6 +35,8 @@ export type SectionsPropsType = {
 
 const renderSectionItem = (data: SectionDataType, type: string) => {
   switch (type) {
+    case SECTION_TYPES.BLANK_SECTION:
+      return <BlankSection />;
     case SECTION_TYPES.HOUR_SECTION:
       return <HourSection data={data as HourSectionDataType} />;
     case SECTION_TYPES.DAY_SECTION:
@@ -53,7 +56,6 @@ export const Sections = ({ location }: SectionsPropsType) => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-
         const cachedData = await AsyncStorage.getItem(`weather_${location}`);
         if (cachedData) {
           const parsedData = JSON.parse(cachedData) as {
@@ -63,7 +65,6 @@ export const Sections = ({ location }: SectionsPropsType) => {
           setSections(parsedData.sections);
           setHeader(parsedData.header);
           setIsLoading(false);
-          console.log("LOL");
           return;
         }
 

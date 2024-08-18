@@ -7,8 +7,8 @@ import {
 } from "./types";
 
 export const SECTION_TYPES = {
-  HEADER: "HEADER",
   HOUR_SECTION: "HOUR_SECTION",
+  BLANK_SECTION: "BLANK_SECTION",
   DAY_SECTION: "DAY_SECTION",
 };
 
@@ -76,6 +76,10 @@ export const parseToHourSection = ({
 };
 
 export const parseSections = (data: WeatherType): SectionsType => [
+  {
+    type: SECTION_TYPES.BLANK_SECTION,
+    data: [{}],
+  },
   {
     type: SECTION_TYPES.HOUR_SECTION,
     data: [parseToHourSection(data)],
