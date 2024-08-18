@@ -1,11 +1,12 @@
 import { Dimensions, StatusBar, StyleSheet } from "react-native";
-import { FOOTER_HEIGHT } from "@/config";
+import { FOOTER_HEIGHT, HEADER_OFFSET } from "@/config";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
+    paddingTop: StatusBar.currentHeight as number,
     maxWidth: Dimensions.get("window").width,
+    position: "relative",
     zIndex: 1,
   },
   sectionList: {

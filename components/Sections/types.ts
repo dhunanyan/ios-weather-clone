@@ -1,8 +1,7 @@
-import { WeatherHourType, WeatherDayType } from "@/types";
-
-export type MainSectionDataType = {
+export type DynamicHeaderDataType = {
   location: string;
   description: string;
+  shortenDescription: string;
   temp: number;
 };
 
@@ -23,12 +22,12 @@ export type DaySectionDataType = {
 };
 
 export type SectionDataType =
-  | MainSectionDataType
+  | DynamicHeaderDataType
   | HourSectionDataType
   | DaySectionDataType
   | null;
 
-export type SectionType = {
+export type SectionsType = {
   type: string;
   data: SectionDataType[];
 }[];

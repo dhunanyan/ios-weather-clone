@@ -13,8 +13,9 @@ export const getWeather = async (
   );
 
 // import { parseWeatherResponse } from "./helpers";
-// import { DATA } from "./local_snapshot";
+// import { LONDON, WARSAW } from "./local_snapshot";
 
 // export const getWeather = async (
 //   location: string = "London"
-// ): Promise<object> => parseWeatherResponse(DATA);
+// ): Promise<object> =>
+//   parseWeatherResponse(location === "London" ? LONDON : WARSAW);

@@ -3,11 +3,13 @@ import { COLORS } from "@/config";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    zIndex: 2,
+    justifyContent: "flex-start",
     alignItems: "center",
-    justifyContent: "center",
-    marginTop: 65,
-    marginBottom: 40,
+    left: 0,
+    right: 0,
+    pointerEvents: "none",
+    overflow: "hidden",
   },
   location: {
     color: COLORS.dark.title,
@@ -24,11 +26,17 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
+  shortenDescription: {
+    textAlign: "center",
+    fontSize: 18,
+    color: COLORS.dark.subtitle,
+    marginVertical: 5,
+  },
   description: {
     textAlign: "center",
     fontSize: 18,
     color: COLORS.dark.subtitle,
     maxWidth: "80%",
-    marginTop: -5,
+    marginVertical: 5,
   },
 });

@@ -1,4 +1,4 @@
-import { ImageSourcePropType, Platform } from "react-native";
+import { Animated, ImageSourcePropType, Platform } from "react-native";
 
 import left from "./assets/images/left.png";
 import profile from "./assets/images/profile.png";
@@ -62,3 +62,4 @@ export const ICONS = {
 } as ImagesType;
 
 export const FOOTER_HEIGHT = Platform.OS === "ios" ? 44 + 36 : 44;
+export const HEADER_OFFSET = 50;

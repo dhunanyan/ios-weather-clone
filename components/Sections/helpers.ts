@@ -2,75 +2,80 @@ import { WeatherType } from "@/types";
 import {
   DaySectionDataType,
   HourSectionDataType,
-  MainSectionDataType,
-  SectionType,
+  DynamicHeaderDataType,
+  SectionsType,
 } from "./types";
 
 export const SECTION_TYPES = {
-  MAIN_SECTION: "MAIN_SECTION",
+  HEADER: "HEADER",
   HOUR_SECTION: "HOUR_SECTION",
   DAY_SECTION: "DAY_SECTION",
 };
 
-const parseToMainSection = (data: WeatherType): MainSectionDataType => ({
-  location: data.location,
-  description: `From ${data.days[0].minTemp}° to ${data.days[0].maxTemp}° ${data.days[0].description}`,
-  temp: data.days[0].temp,
+export const parseToDynamicHeader = ({
+  location,
+  days: [{ minTemp, maxTemp, description, temp, conditions }],
+}: WeatherType): DynamicHeaderDataType => ({
+  location,
+  description: `From ${minTemp}° to ${maxTemp}° ${description}`,
+  shortenDescription: `${temp}° | ${conditions}`,
+  temp,
 });
 
-const parseToDaySection = (data: WeatherType): DaySectionDataType => ({
+export const parseToDaySection = (data: WeatherType): DaySectionDataType => ({
   title: `Forecast ${data.days.length} Days`,
-  days: data.days.map((day) => ({
-    dayOfWeek: day.dayOfWeek,
-    dateTime: day.dateTime,
-    icon: day.icon,
-    minTemp: day.minTemp,
-    maxTemp: day.maxTemp,
+  days: data.days.map(({ dayOfWeek, dateTime, icon, minTemp, maxTemp }) => ({
+    dayOfWeek: dayOfWeek,
+    dateTime: dateTime,
+    icon: icon,
+    minTemp: minTemp,
+    maxTemp: maxTemp,
   })),
 });
 
-const parseToHourSection = (data: WeatherType): HourSectionDataType => {
-  const hours: HourSectionDataType["hours"] = data.days[0].hours.map(
-    (hour) => ({
-      time: hour.time,
-      temp: hour.temp,
-      icon: hour.icon,
+export const parseToHourSection = ({
+  days: [{ hours, sunrise, sunset, conditions: title }],
+}: WeatherType): HourSectionDataType => {
+  const parsedHours: HourSectionDataType["hours"] = hours.map(
+    ({ time, temp, icon }) => ({
+      time: time,
+      temp: temp,
+      icon: icon,
       text: undefined,
     })
   );
 
-  const sunrise = {
-    time: data.days[0].sunrise,
+  const sunriseHour = {
+    time: sunrise,
     temp: undefined,
     text: "Sunrise",
     icon: "sunrise",
   };
-  const sunset = {
-    time: data.days[0].sunset,
+  const sunsetHour = {
+    time: sunset,
     temp: undefined,
     text: "Sunset",
     icon: "sunrise",
   };
 
+  const sunriseHourTime = sunriseHour.time.split(":")[0];
+  const sunsetHourTime = sunsetHour.time.split(":")[0];
+
   const sunriseIndex =
-    hours.findIndex((hour) => hour.time === sunrise.time.split(":")[0]) + 1;
-  hours.splice(sunriseIndex, 0, sunrise);
+    parsedHours.findIndex((hour) => hour.time === sunriseHourTime) + 1;
+  parsedHours.splice(sunriseIndex, 0, sunriseHour);
 
   const sunsetIndex =
-    hours.findIndex((hour) => hour.time === sunset.time.split(":")[0]) + 1;
-  hours.splice(sunsetIndex, 0, sunset);
+    parsedHours.findIndex((hour) => hour.time === sunsetHourTime) + 1;
+  parsedHours.splice(sunsetIndex, 0, sunsetHour);
 
   return {
-    title: data.days[0].conditions,
-    hours: hours,
+    title,
+    hours: parsedHours,
   };
 };
 
-export const getSections = (data: WeatherType): SectionType => [
-  {
-    type: SECTION_TYPES.MAIN_SECTION,
-    data: [parseToMainSection(data)],
-  },
+export const parseSections = (data: WeatherType): SectionsType => [
   {
     type: SECTION_TYPES.HOUR_SECTION,
     data: [parseToHourSection(data)],
