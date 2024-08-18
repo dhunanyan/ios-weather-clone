@@ -35,6 +35,17 @@ export const DynamicHeader = ({
       </Animated.Text>
       <Animated.Text
         style={[
+          styles.shortenDescription,
+          {
+            opacity: animate(170, 200, 0, 1),
+            transform: [{ translateY: animate(170, 200, 10, 0) }],
+          },
+        ]}
+      >
+        {data.shortenDescription}
+      </Animated.Text>
+      <Animated.Text
+        style={[
           styles.temp,
           {
             opacity: animate(80, 120, 1, 0),
@@ -54,17 +65,6 @@ export const DynamicHeader = ({
         ]}
       >
         {data.description}
-      </Animated.Text>
-      <Animated.Text
-        style={[
-          styles.shortenDescription,
-          {
-            opacity: animate(170, 200, 0, 1),
-            transform: [{ translateY: animate(160, 200, -165, -170) }],
-          },
-        ]}
-      >
-        {data.shortenDescription}
       </Animated.Text>
     </Animated.View>
   );

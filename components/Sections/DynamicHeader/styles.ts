@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
   },
   location: {
     color: COLORS.dark.title,
+    marginBottom: -5,
     fontSize: 30,
     fontWeight: 500,
     lineHeight: 30,
@@ -23,7 +24,6 @@ export const styles = StyleSheet.create({
     fontWeight: 300,
     lineHeight: 100,
     textAlign: "center",
-    marginTop: 10,
   },
   shortenDescription: {
     textAlign: "center",
