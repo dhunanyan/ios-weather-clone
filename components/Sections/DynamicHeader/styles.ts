@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "@/config";
+import { COLORS, IS_PLATFORM } from "@/config";
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,14 +14,14 @@ export const styles = StyleSheet.create({
     color: COLORS.dark.title,
     marginBottom: -5,
     fontSize: 30,
-    fontWeight: 500,
+    fontWeight: IS_PLATFORM.ANDROID ? "300" : 300,
     lineHeight: 30,
     textAlign: "center",
   },
   temp: {
     color: COLORS.dark.title,
     fontSize: 100,
-    fontWeight: 300,
+    fontWeight: IS_PLATFORM.ANDROID ? "300" : 300,
     lineHeight: 100,
     textAlign: "center",
   },

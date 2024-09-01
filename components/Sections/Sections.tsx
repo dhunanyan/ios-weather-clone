@@ -47,7 +47,7 @@ const renderSectionItem = (data: SectionDataType, type: string) => {
     case SECTION_TYPES.DAY_SECTION:
       return <DaySection data={data as DaySectionDataType} />;
   }
-  return <View>There is no such section</View>;
+  return <Text>There is no such section</Text>;
 };
 
 export const Sections = ({ location }: SectionsPropsType) => {

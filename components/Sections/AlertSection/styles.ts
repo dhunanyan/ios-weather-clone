@@ -1,4 +1,4 @@
-import { COLORS } from "@/config";
+import { COLORS, IS_PLATFORM } from "@/config";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
   title: {
     color: COLORS.dark.title,
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: IS_PLATFORM.ANDROID ? "800" : 800,
     marginLeft: 5,
     textAlign: "justify",
   },

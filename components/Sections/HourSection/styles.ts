@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "@/config";
+import { COLORS, IS_PLATFORM } from "@/config";
 
 export const styles = StyleSheet.create({
   container: {
@@ -58,13 +58,13 @@ export const sliderStyling = (index: number) =>
     temp: {
       fontFamily: "DMSansBold",
       fontSize: 18,
-      fontWeight: 700,
+      fontWeight: IS_PLATFORM.ANDROID ? "700" : 700,
       color: COLORS.dark.subtitle,
     },
     text: {
       fontFamily: "DMSansBold",
       fontSize: 18,
-      fontWeight: 700,
+      fontWeight: IS_PLATFORM.ANDROID ? "700" : 700,
       color: COLORS.dark.subtitle,
     },
   });

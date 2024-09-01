@@ -61,5 +61,21 @@ export const ICONS = {
   "clear-night": clearNight,
 } as ImagesType;
 
-export const FOOTER_HEIGHT = Platform.OS === "ios" ? 44 + 36 : 44;
+export const PLATFORMS = {
+  ANDROID: "android",
+  IOS: "ios",
+  MACOS: "macos",
+  WEB: "web",
+  WINDOW: "windows",
+};
+
+export const IS_PLATFORM = {
+  ANDROID: Platform.OS === PLATFORMS.ANDROID,
+  IOS: Platform.OS === PLATFORMS.IOS,
+  MACOS: Platform.OS === PLATFORMS.MACOS,
+  WEB: Platform.OS === PLATFORMS.WEB,
+  WINDOW: Platform.OS === PLATFORMS.WINDOW,
+};
+
+export const FOOTER_HEIGHT = IS_PLATFORM.IOS ? 44 + 36 : 44;
 export const HEADER_OFFSET = 110;

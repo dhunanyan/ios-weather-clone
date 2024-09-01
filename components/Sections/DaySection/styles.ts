@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "@/config";
+import { COLORS, IS_PLATFORM } from "@/config";
 
 export const styles = StyleSheet.create({
   container: {
@@ -50,7 +50,7 @@ export const sliderStyling = (isFirstIndex: boolean, isLastIndex: boolean) =>
     },
     dayOfWeek: {
       fontSize: 21,
-      fontWeight: 700,
+      fontWeight: IS_PLATFORM.ANDROID ? "700" : 700,
       color: COLORS.dark.title,
       width: 52,
     },

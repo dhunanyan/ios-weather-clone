@@ -4,7 +4,7 @@ import { Stack } from "expo-router";
 
 import { useFonts } from "expo-font";
 import "react-native-reanimated";
-import { Platform } from "react-native";
+import { IS_PLATFORM } from "@/config";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,7 +33,7 @@ export default function RootLayout() {
         options={{
           headerShown: false,
           contentStyle: {
-            marginBottom: Platform.OS === "ios" ? -36 : 0,
+            marginBottom: IS_PLATFORM.IOS ? -36 : 0,
           },
         }}
       />
