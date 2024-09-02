@@ -1,5 +1,3 @@
-export type LocationType = { id: string; location: string };
-
 type WeatherResponseHourType = {
   datetime: string;
   temp: number;
@@ -17,7 +15,7 @@ type WeatherResponseDayType = {
   description: string;
   conditions: string;
   icon: string;
-  hours: WeatherResponseHourType[];
+  hours: Array<WeatherResponseHourType>;
 };
 
 type WeatherResponseAlertType = {
@@ -32,8 +30,8 @@ export type WeatherResponseType = {
   address: string;
   timezone: string;
   description: string;
-  days: WeatherResponseDayType[];
-  alerts: WeatherResponseAlertType[];
+  days: Array<WeatherResponseDayType>;
+  alerts: Array<WeatherResponseAlertType>;
 };
 
 export type WeatherHourType = {
@@ -53,7 +51,7 @@ export type WeatherDayType = {
   description: string;
   conditions: string;
   icon: string;
-  hours: WeatherHourType[];
+  hours: Array<WeatherHourType>;
 };
 
 export type WeatherAlertType = {
@@ -65,6 +63,14 @@ export type WeatherAlertType = {
 
 export type WeatherType = {
   location: string;
-  days: WeatherDayType[];
-  alerts: WeatherAlertType[];
+  days: Array<WeatherDayType>;
+  alerts: Array<WeatherAlertType>;
 };
+
+export type LocationType = {
+  displayName: string;
+  name: string;
+  id: string;
+};
+
+export type LocationsType = Array<LocationType>;

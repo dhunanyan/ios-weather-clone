@@ -1,1 +1,2 @@
-export { getWeather } from "./getWeather";
+export { getWeather } from "./weather";
+export { getLocations, setLocation, addLocation } from "./locations";

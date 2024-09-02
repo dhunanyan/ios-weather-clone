@@ -41,7 +41,7 @@ export type SectionDataType =
 
 export type SectionsType = {
   type: string;
-  data: SectionDataType[];
+  data: Array<SectionDataType>;
 }[];
 
 export const SECTION_TYPES = {

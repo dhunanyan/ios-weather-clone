@@ -1,8 +1,7 @@
+import axios from "axios";
 import { WeatherResponseType, WeatherType } from "@/types";
 
-export const parseWeatherResponse = (
-  obj: WeatherResponseType
-): WeatherType => ({
+const parseWeatherResponse = (obj: WeatherResponseType): WeatherType => ({
   location: obj.address,
   days: obj.days.map(
     ({
@@ -41,3 +40,26 @@ export const parseWeatherResponse = (
     id,
   })),
 });
+
+const BASE_URL =
+  "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline";
+
+export const getWeather = async (
+  location: string = "London"
+): Promise<WeatherType> =>
+  parseWeatherResponse(
+    (
+      await axios.get(
+        `${BASE_URL}/${location}?key=${process.env.EXPO_PUBLIC_WEATHER_API_KEY?.toString()}`
+      )
+    ).data
+  );
+
+// import { WeatherType } from "@/types";
+// import { parseWeatherResponse } from "./helpers";
+// import { LONDON, WARSAW } from "./local_snapshot";
+
+// export const getWeather = async (
+//   location: string = "London"
+// ): Promise<WeatherType> =>
+//   parseWeatherResponse(location === "London" ? LONDON : WARSAW);

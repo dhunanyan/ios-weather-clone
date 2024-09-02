@@ -10,7 +10,7 @@ import { styles } from "./styles";
 
 export type FooterPropsType = {
   activeSlideId: string;
-  buttons: string[];
+  buttons: Array<string>;
   onButtonPress: (index: number) => void;
 };
 

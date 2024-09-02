@@ -2,16 +2,12 @@
   "expo": {
     "name": "Weather",
     "slug": "weather",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "scheme": "acme",
     "plugins": ["expo-router"],
-    "splash": {
-      "image": "./assets/images/loading.gif",
-      "resizeMode": "contain",
-      "backgroundColor": "#282a36"
-    },
     "ios": {
       "supportsTablet": true
     },

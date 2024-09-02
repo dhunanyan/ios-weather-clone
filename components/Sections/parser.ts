@@ -1,4 +1,4 @@
-import { WeatherType } from "@/types";
+import { LocationType, WeatherType } from "@/types";
 import {
   DaySectionDataType,
   HourSectionDataType,
@@ -8,11 +8,11 @@ import {
   SECTION_TYPES,
 } from "./types";
 
-export const parseToDynamicHeader = ({
-  location,
-  days: [{ minTemp, maxTemp, description, temp, conditions }],
-}: WeatherType): DynamicHeaderDataType => ({
-  location,
+export const parseToDynamicHeader = (
+  { days: [{ minTemp, maxTemp, description, temp, conditions }] }: WeatherType,
+  location: LocationType
+): DynamicHeaderDataType => ({
+  location: location.displayName,
   description: `From ${minTemp}° to ${maxTemp}° ${description}`,
   shortenDescription: `${temp}° | ${conditions}`,
   temp,

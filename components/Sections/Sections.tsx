@@ -9,9 +9,10 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { getWeather } from "@/api";
+import { getWeather, getLocations } from "@/api";
 
 import { DynamicHeader } from "./DynamicHeader";
+import { AlertSection } from "./AlertSection";
 import { BlankSection } from "./BlankSection";
 import { HourSection } from "./HourSection";
 import { DaySection } from "./DaySection";
@@ -28,12 +29,12 @@ import {
   type SectionDataType,
   type SectionsType,
 } from "./types";
-import type { WeatherType } from "@/types";
+import type { LocationType, WeatherType } from "@/types";
+
 import { styles } from "./styles";
-import { AlertSection } from "./AlertSection";
 
 export type SectionsPropsType = {
-  location: string;
+  location: LocationType;
 };
 
 const renderSectionItem = (data: SectionDataType, type: string) => {
@@ -61,24 +62,27 @@ export const Sections = ({ location }: SectionsPropsType) => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const cachedData = await AsyncStorage.getItem(`weather_${location}`);
+
+        const cachedData = await AsyncStorage.getItem(`weather_${location.id}`);
+
         if (cachedData) {
           const parsedData = JSON.parse(cachedData) as {
             header: DynamicHeaderDataType;
             sections: SectionsType;
           };
+
           setSections(parsedData.sections);
           setHeader(parsedData.header);
           setIsLoading(false);
           return;
         }
 
-        const response = (await getWeather(location)) as WeatherType;
-        const headerData = parseToDynamicHeader(response);
+        const response = (await getWeather(location.name)) as WeatherType;
+        const headerData = parseToDynamicHeader(response, location);
         const sectionsData = parseSections(response);
 
         await AsyncStorage.setItem(
-          `weather_${location}`,
+          `weather_${location.id}`,
           JSON.stringify({ header: headerData, sections: sectionsData })
         );
 

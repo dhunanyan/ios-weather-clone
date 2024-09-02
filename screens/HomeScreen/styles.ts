@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { COLORS } from "@/config";
 
 export const styling = (width: number, height: number) =>
@@ -18,5 +18,18 @@ export const styling = (width: number, height: number) =>
       top: 0,
       left: 0,
       zIndex: 1,
+    },
+    activityIndicatorContainer: {
+      padding: 16,
+      height: height,
+      width: width,
+      flex: 1,
+      alignContent: "center",
+      justifyContent: "center",
+    },
+    errorTextContainer: {
+      padding: 16,
+      height: height,
+      width: width,
     },
   });

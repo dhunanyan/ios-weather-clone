@@ -1,0 +1,1 @@
+export { LocationsScreen } from "./LocationsScreen";
