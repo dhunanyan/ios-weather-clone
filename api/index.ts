@@ -1,2 +1,7 @@
 export { getWeather } from "./weather";
-export { getLocations, setLocation, addLocation } from "./locations";
+export {
+  getLocations,
+  getUserLocation,
+  setLocation,
+  addLocation,
+} from "./locations";

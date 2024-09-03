@@ -4,9 +4,7 @@ import { BlurView } from "expo-blur";
 import Foundation from "@expo/vector-icons/Foundation";
 
 import { styles } from "./styles";
-import { WeatherAlertType } from "@/types";
 import { AlertSectionDataType } from "../types";
-import { COLORS } from "@/config";
 
 export type AlertSectionPropsType = {
   data: AlertSectionDataType;

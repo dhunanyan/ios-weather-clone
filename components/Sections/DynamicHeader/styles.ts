@@ -3,12 +3,10 @@ import { COLORS, IS_PLATFORM } from "@/config";
 
 export const styles = StyleSheet.create({
   container: {
-    zIndex: 2,
+    marginTop: 30,
+    marginBottom: 10,
     justifyContent: "flex-start",
     alignItems: "center",
-    position: "absolute",
-    left: 0,
-    right: 0,
   },
   location: {
     color: COLORS.dark.title,

@@ -1,5 +1,3 @@
-export type BlankSectionDataType = {};
-
 export type DynamicHeaderDataType = {
   location: string;
   description: string;
@@ -33,7 +31,6 @@ export type DaySectionDataType = {
 };
 
 export type SectionDataType =
-  | BlankSectionDataType
   | AlertSectionDataType
   | HourSectionDataType
   | DaySectionDataType
@@ -47,6 +44,5 @@ export type SectionsType = {
 export const SECTION_TYPES = {
   HOUR_SECTION: "HOUR_SECTION",
   ALERT_SECTION: "ALERT_SECTION",
-  BLANK_SECTION: "BLANK_SECTION",
   DAY_SECTION: "DAY_SECTION",
 };

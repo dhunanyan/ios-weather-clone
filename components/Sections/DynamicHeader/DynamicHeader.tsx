@@ -1,5 +1,5 @@
 import React from "react";
-import { Animated, Text } from "react-native";
+import { Animated, View } from "react-native";
 
 import { DynamicHeaderDataType } from "../types";
 import { styles } from "./styles";
@@ -14,21 +14,23 @@ export const DynamicHeader = ({
   animatedValue,
 }: DynamicHeaderPropsType) => {
   const animate = React.useMemo(
-    () => (y1: number, y2: number, start: number, end: number) =>
+    () => (inputRange: number[], outputRange: string[] | number[]) =>
       animatedValue.interpolate({
-        inputRange: [y1, y2],
-        outputRange: [start, end],
+        inputRange: inputRange,
+        outputRange: outputRange,
         extrapolate: "clamp",
       }),
     [animatedValue]
   );
 
   return (
-    <Animated.View style={[styles.container, { top: animate(0, 80, 80, 30) }]}>
+    <Animated.View
+      style={[styles.container, { maxHeight: animate([0, 120], [250, 50]) }]}
+    >
       <Animated.Text
         style={[
           styles.location,
-          { transform: [{ translateY: animate(0, 120, 25, 0) }] },
+          { transform: [{ translateY: animate([0, 60], [25, 0]) }] },
         ]}
       >
         {data.location}
@@ -37,8 +39,8 @@ export const DynamicHeader = ({
         style={[
           styles.shortenDescription,
           {
-            opacity: animate(170, 200, 0, 1),
-            transform: [{ translateY: animate(170, 200, 10, 0) }],
+            opacity: animate([0, 20, 80], [0, 0, 1]),
+            transform: [{ translateY: animate([0, 80], [-10, 0]) }],
           },
         ]}
       >
@@ -48,8 +50,8 @@ export const DynamicHeader = ({
         style={[
           styles.temp,
           {
-            opacity: animate(80, 120, 1, 0),
-            transform: [{ translateY: animate(0, 120, 20, 0) }],
+            opacity: animate([0, 60], [1, 0]),
+            transform: [{ translateY: animate([0, 60], [20, 0]) }],
           },
         ]}
       >
@@ -59,8 +61,8 @@ export const DynamicHeader = ({
         style={[
           styles.description,
           {
-            opacity: animate(0, 50, 1, 0),
-            transform: [{ translateY: animate(0, 120, 15, 0) }],
+            opacity: animate([0, 20], [1, 0]),
+            transform: [{ translateY: animate([0, 20], [15, 0]) }],
           },
         ]}
       >

@@ -1,1 +1,0 @@
-export { LocationsScreen } from "./LocationsScreen";

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -9,11 +9,10 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { getWeather, getLocations } from "@/api";
+import { getWeather } from "@/api";
 
 import { DynamicHeader } from "./DynamicHeader";
 import { AlertSection } from "./AlertSection";
-import { BlankSection } from "./BlankSection";
 import { HourSection } from "./HourSection";
 import { DaySection } from "./DaySection";
 
@@ -39,8 +38,6 @@ export type SectionsPropsType = {
 
 const renderSectionItem = (data: SectionDataType, type: string) => {
   switch (type) {
-    case SECTION_TYPES.BLANK_SECTION:
-      return <BlankSection />;
     case SECTION_TYPES.ALERT_SECTION:
       return <AlertSection data={data as AlertSectionDataType} />;
     case SECTION_TYPES.HOUR_SECTION:
@@ -52,18 +49,22 @@ const renderSectionItem = (data: SectionDataType, type: string) => {
 };
 
 export const Sections = ({ location }: SectionsPropsType) => {
-  const [sections, setSections] = useState<SectionsType | []>([]);
-  const [header, setHeader] = useState<DynamicHeaderDataType | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isError, setIsError] = useState<boolean>(false);
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const [sections, setSections] = React.useState<SectionsType | []>([]);
+  const [header, setHeader] = React.useState<DynamicHeaderDataType | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const [isError, setIsError] = React.useState<boolean>(false);
+  const scrollY = React.useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
 
-        const cachedData = await AsyncStorage.getItem(`weather_${location.id}`);
+        const cachedData = await AsyncStorage.getItem(
+          `weather_slider_${location.id}`
+        );
 
         if (cachedData) {
           const parsedData = JSON.parse(cachedData) as {
@@ -82,7 +83,7 @@ export const Sections = ({ location }: SectionsPropsType) => {
         const sectionsData = parseSections(response);
 
         await AsyncStorage.setItem(
-          `weather_${location.id}`,
+          `weather_slider_${location.id}`,
           JSON.stringify({ header: headerData, sections: sectionsData })
         );
 
@@ -123,22 +124,21 @@ export const Sections = ({ location }: SectionsPropsType) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <DynamicHeader animatedValue={scrollY} data={header} />
-        <SectionList
-          scrollEventThrottle={5}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: false }
-          )}
-          showsVerticalScrollIndicator={false}
-          style={styles.sectionList}
-          sections={sections}
-          renderItem={({ section: { data, type } }) =>
-            renderSectionItem(data[0], type)
-          }
-        />
-      </View>
+      <DynamicHeader animatedValue={scrollY} data={header} />
+      <SectionList
+        scrollEventThrottle={5}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+        showsVerticalScrollIndicator={false}
+        style={styles.sectionList}
+        sections={sections}
+        renderItem={({ section: { data, type } }) =>
+          renderSectionItem(data[0], type)
+        }
+        snapToAlignment="center"
+      />
     </SafeAreaView>
   );
 };

@@ -1,7 +1,5 @@
-import { Animated, ImageSourcePropType, Platform } from "react-native";
+import { ImageSourcePropType, Platform } from "react-native";
 
-import left from "./assets/images/left.png";
-import profile from "./assets/images/profile.png";
 import background from "./assets/images/background.jpg";
 
 import sunrise from "./assets/images/weather/sunrise.png";
@@ -42,8 +40,6 @@ export const COLORS = {
 type ImagesType = { [key: string]: ImageSourcePropType };
 
 export const IMAGES = {
-  left,
-  profile,
   background,
 } as ImagesType;
 

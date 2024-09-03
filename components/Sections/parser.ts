@@ -86,10 +86,6 @@ export const parseToHourSection = ({
 
 export const parseSections = (data: WeatherType): SectionsType => [
   {
-    type: SECTION_TYPES.BLANK_SECTION,
-    data: [{}],
-  },
-  {
     type: SECTION_TYPES.ALERT_SECTION,
     data: [parseToAlertSection(data)],
   },

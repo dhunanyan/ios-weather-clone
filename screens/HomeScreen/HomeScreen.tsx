@@ -1,54 +1,63 @@
-import React, { useCallback, useRef, useState } from "react";
+import * as React from "react";
 import {
   ActivityIndicator,
+  Animated,
   Dimensions,
   FlatList,
-  ImageBackground,
-  StatusBar,
+  PanResponder,
   Text,
   View,
-  ViewToken,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import { Footer } from "@/components/Footer";
-import { Sections } from "@/components/Sections";
-
-import { COLORS, FOOTER_HEIGHT, IMAGES } from "@/config";
-import { LocationsType, LocationType } from "@/types";
-import { styling } from "./styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getLocations } from "@/api";
-import { getUserLocation } from "@/api/locations/getUserLocation";
+
+import { getLocations, getUserLocation } from "@/api";
+import { COLORS } from "@/config";
+
+import { SliderScreen } from "../SliderScreen";
+import { MenuScreen } from "../MenuScreen";
+
+import { LocationsType } from "@/types";
+
+import { styling } from "./styles";
 
 export const HomeScreen = () => {
-  const [locations, setLocations] = useState<LocationsType>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [activeSlideId, setActiveSlideId] = useState("london");
-  const ref: React.LegacyRef<FlatList> = useRef(null);
   const { width, height } = Dimensions.get("window");
-
   const styles = styling(width, height);
 
-  const onViewableItemsChanged = useCallback(
-    ({ viewableItems }: { viewableItems: Array<ViewToken<LocationType>> }) => {
-      if (viewableItems[0] === undefined) {
-        return;
-      }
+  const [locations, setLocations] = React.useState<LocationsType>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isError, setIsError] = React.useState<boolean>(false);
 
-      setActiveSlideId(viewableItems[0].item.id);
-    },
-    []
-  );
+  const slideAnim = React.useRef(new Animated.Value(1)).current;
+  const menuVisible = React.useRef(1);
 
-  const handleButtonPress = (index: number) => {
-    if (ref === null || ref.current === null) {
-      return;
-    }
+  const toggleMenu = (value: number) => {
+    menuVisible.current = value;
 
-    ref.current.scrollToIndex({ animated: true, index });
+    return Animated.timing(slideAnim, {
+      toValue: value,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
   };
+
+  const handlePanResponder = React.useMemo(() => {
+    return PanResponder.create({
+      onMoveShouldSetPanResponder: (_, gestureState) => {
+        return Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
+      },
+      onPanResponderMove: (_, gestureState) => {
+        const newValue = Math.min(Math.max(gestureState.dx / width, 0), 1);
+        slideAnim.setValue(newValue);
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        const threshold = 0.5;
+        const toValue = gestureState.dx / width > threshold ? 1 : 0;
+        toggleMenu(toValue);
+      },
+    });
+  }, []);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -114,35 +123,25 @@ export const HomeScreen = () => {
     );
   }
 
+  const menuTranslateX = slideAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, width],
+  });
+
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.dark.background} />
-      <ImageBackground
-        source={IMAGES.background}
-        resizeMode="cover"
-        style={styles.imageBackground}
-      >
-        <FlatList
-          style={{ height: "100%" }}
-          data={locations}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{
-            height: height - FOOTER_HEIGHT,
-          }}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => <Sections location={item} />}
-          horizontal
-          pagingEnabled
-          onViewableItemsChanged={onViewableItemsChanged}
-          viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
-          ref={ref}
+      <SliderScreen
+        locations={locations}
+        onMenuIconPress={() => toggleMenu(0)}
+      />
+      {menuTranslateX && (
+        <MenuScreen
+          panResponder={handlePanResponder}
+          onGoBackPress={() => toggleMenu(1)}
+          translateXValue={menuTranslateX}
+          locations={locations}
         />
-        <Footer
-          activeSlideId={activeSlideId}
-          buttons={locations.map((slide) => slide.id)}
-          onButtonPress={handleButtonPress}
-        />
-      </ImageBackground>
+      )}
     </SafeAreaView>
   );
 };
