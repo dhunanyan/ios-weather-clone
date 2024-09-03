@@ -5,3 +5,4 @@ export {
   setLocation,
   addLocation,
 } from "./locations";
+export { getSearchSuggestions } from "./suggestions";

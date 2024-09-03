@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Animated,
   FlatList,
@@ -6,7 +7,7 @@ import {
   Text,
 } from "react-native";
 
-import { MenuPressable } from "@/components";
+import { MenuPressable, SearchBar } from "@/components";
 import { LocationsType } from "@/types";
 
 import Entypo from "@expo/vector-icons/Entypo";
@@ -38,6 +39,7 @@ export const MenuScreen = ({
         <Entypo name="chevron-left" size={24} style={styles.icon} />
         <Text style={styles.title}>Weather</Text>
       </Pressable>
+      <SearchBar />
 
       <FlatList
         style={styles.flatList}

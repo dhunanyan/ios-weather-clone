@@ -74,3 +74,25 @@ export type LocationType = {
 };
 
 export type LocationsType = Array<LocationType>;
+
+export type SuggestionType = {
+  iso2: string;
+  iso3: string;
+  country: string;
+  cities: Array<string>;
+};
+
+export type SuggestionsType = Array<SuggestionType>;
+
+export type SuggestionsResponseType = {
+  error: boolean;
+  msg: string;
+  data: SuggestionsType;
+};
+
+export type ParsedSuggestionType = {
+  city: string;
+  displayText: string;
+};
+
+export type ParsedSuggestionsType = Array<ParsedSuggestionType>;
