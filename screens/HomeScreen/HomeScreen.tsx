@@ -19,6 +19,7 @@ import { MenuScreen } from "../MenuScreen";
 import { LocationsType } from "@/types";
 
 import { styling } from "./styles";
+import { ModalScreen, ModalScreenPropsType } from "../ModalScreen/ModalScreen";
 
 export const HomeScreen = () => {
   const { width, height } = Dimensions.get("window");
@@ -27,6 +28,8 @@ export const HomeScreen = () => {
   const [locations, setLocations] = React.useState<LocationsType>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isError, setIsError] = React.useState<boolean>(false);
+  const [modalProps, setModalProps] =
+    React.useState<ModalScreenPropsType | null>(null);
 
   const slideAnim = React.useRef(new Animated.Value(1)).current;
   const menuVisible = React.useRef(1);
@@ -148,6 +151,7 @@ export const HomeScreen = () => {
       />
       {menuTranslateX && (
         <MenuScreen
+          setModalProps={setModalProps}
           refetchLocations={refetch}
           panResponder={handlePanResponder}
           onGoBackPress={() => toggleMenu(1)}
@@ -155,6 +159,7 @@ export const HomeScreen = () => {
           locations={locations}
         />
       )}
+      {modalProps !== null && <ModalScreen {...modalProps} />}
     </SafeAreaView>
   );
 };

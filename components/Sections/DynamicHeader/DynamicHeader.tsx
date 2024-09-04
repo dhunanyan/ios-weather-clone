@@ -6,31 +6,32 @@ import { styles } from "./styles";
 
 export type DynamicHeaderPropsType = {
   data: DynamicHeaderDataType;
-  animatedValue: Animated.Value;
+  animatedValues: { [key: string]: Animated.Value };
 };
 
 export const DynamicHeader = ({
   data,
-  animatedValue,
+  animatedValues,
 }: DynamicHeaderPropsType) => {
-  const animate = React.useMemo(
-    () => (inputRange: number[], outputRange: string[] | number[]) =>
-      animatedValue.interpolate({
-        inputRange: inputRange,
-        outputRange: outputRange,
-        extrapolate: "clamp",
-      }),
-    [animatedValue]
-  );
+  const {
+    containerMaxHeight,
+    locationTranslateY,
+    shortenDescriptionOpacity,
+    shortenDescriptionTransform,
+    tempOpacity,
+    tempTransform,
+    descriptionOpacity,
+    descriptionTransform,
+  } = animatedValues;
 
   return (
     <Animated.View
-      style={[styles.container, { maxHeight: animate([0, 120], [250, 50]) }]}
+      style={[styles.container, { maxHeight: containerMaxHeight }]}
     >
       <Animated.Text
         style={[
           styles.location,
-          { transform: [{ translateY: animate([0, 60], [25, 0]) }] },
+          { transform: [{ translateY: locationTranslateY }] },
         ]}
       >
         {data.location}
@@ -39,8 +40,8 @@ export const DynamicHeader = ({
         style={[
           styles.shortenDescription,
           {
-            opacity: animate([0, 20, 80], [0, 0, 1]),
-            transform: [{ translateY: animate([0, 80], [-10, 0]) }],
+            opacity: shortenDescriptionOpacity,
+            transform: [{ translateY: shortenDescriptionTransform }],
           },
         ]}
       >
@@ -50,8 +51,8 @@ export const DynamicHeader = ({
         style={[
           styles.temp,
           {
-            opacity: animate([0, 60], [1, 0]),
-            transform: [{ translateY: animate([0, 60], [20, 0]) }],
+            opacity: tempOpacity,
+            transform: [{ translateY: tempTransform }],
           },
         ]}
       >
@@ -61,8 +62,8 @@ export const DynamicHeader = ({
         style={[
           styles.description,
           {
-            opacity: animate([0, 20], [1, 0]),
-            transform: [{ translateY: animate([0, 20], [15, 0]) }],
+            opacity: descriptionOpacity,
+            transform: [{ translateY: descriptionTransform }],
           },
         ]}
       >

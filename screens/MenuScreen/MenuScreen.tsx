@@ -13,11 +13,13 @@ import { LocationsType } from "@/types";
 import Entypo from "@expo/vector-icons/Entypo";
 
 import { styles } from "./styles";
+import { ModalScreenPropsType } from "../ModalScreen/ModalScreen";
 
 export type MenuScreenPropsType = {
   locations: LocationsType;
   translateXValue: Animated.AnimatedInterpolation<string | number>;
   panResponder: PanResponderInstance;
+  setModalProps: (props: ModalScreenPropsType) => void;
   onGoBackPress: () => void;
   refetchLocations: () => Promise<void>;
 };
@@ -25,8 +27,9 @@ export type MenuScreenPropsType = {
 export const MenuScreen = ({
   locations,
   translateXValue,
-  onGoBackPress,
   panResponder,
+  setModalProps,
+  onGoBackPress,
   refetchLocations,
 }: MenuScreenPropsType) => {
   const innerContainerTranslateY = React.useRef(new Animated.Value(0)).current;
@@ -60,6 +63,7 @@ export const MenuScreen = ({
           </Pressable>
         </Animated.View>
         <SearchBar
+          setModalProps={setModalProps}
           menuScreenOverflowOpacity={overflowOpacity}
           menuScreenPressableOpacity={pressableOpacity}
           menuScreenInnerContainerTranslateY={innerContainerTranslateY}

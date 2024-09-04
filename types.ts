@@ -91,7 +91,7 @@ export type SuggestionsResponseType = {
 };
 
 export type ParsedSuggestionType = {
-  city: string;
+  name: string;
   displayText: string;
 };
 

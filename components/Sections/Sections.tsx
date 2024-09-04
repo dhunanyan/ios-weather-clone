@@ -38,6 +38,17 @@ export type SectionsPropsType = {
   location: LocationType;
 };
 
+const ANIMATIONS = {
+  containerMaxHeight: { start: 250, end: 50 },
+  locationTranslateY: { start: 25, end: 0 },
+  shortenDescriptionOpacity: { start: 0, end: 1 },
+  shortenDescriptionTransform: { start: 10, end: 0 },
+  tempOpacity: { start: 1, end: 0 },
+  tempTransform: { start: 20, end: -5 },
+  descriptionOpacity: { start: 1, end: 0 },
+  descriptionTransform: { start: 15, end: -20 },
+};
+
 const renderSectionItem = (data: SectionDataType, type: string) => {
   switch (type) {
     case SECTION_TYPES.ALERT_SECTION:
@@ -59,10 +70,145 @@ export const Sections = ({ location }: SectionsPropsType) => {
   const [isError, setIsError] = React.useState<boolean>(false);
   const scrollY = React.useRef(new Animated.Value(0)).current;
 
+  const containerMaxHeight = React.useRef(
+    new Animated.Value(ANIMATIONS.containerMaxHeight.start)
+  ).current;
+  const locationTranslateY = React.useRef(
+    new Animated.Value(ANIMATIONS.locationTranslateY.start)
+  ).current;
+  const shortenDescriptionOpacity = React.useRef(
+    new Animated.Value(ANIMATIONS.shortenDescriptionOpacity.start)
+  ).current;
+  const shortenDescriptionTransform = React.useRef(
+    new Animated.Value(ANIMATIONS.shortenDescriptionTransform.start)
+  ).current;
+  const tempOpacity = React.useRef(
+    new Animated.Value(ANIMATIONS.tempOpacity.start)
+  ).current;
+  const tempTransform = React.useRef(
+    new Animated.Value(ANIMATIONS.tempTransform.start)
+  ).current;
+  const descriptionOpacity = React.useRef(
+    new Animated.Value(ANIMATIONS.descriptionOpacity.start)
+  ).current;
+  const descriptionTransform = React.useRef(
+    new Animated.Value(ANIMATIONS.descriptionTransform.start)
+  ).current;
+
+  const fadeInAnimatedValues = () => {
+    Animated.parallel([
+      Animated.timing(containerMaxHeight, {
+        toValue: ANIMATIONS.containerMaxHeight.start,
+        duration: 80,
+        useNativeDriver: false,
+      }),
+      Animated.timing(descriptionOpacity, {
+        toValue: ANIMATIONS.descriptionOpacity.start,
+        duration: 80,
+        useNativeDriver: false,
+      }),
+      Animated.timing(descriptionTransform, {
+        toValue: ANIMATIONS.descriptionTransform.start,
+        duration: 60,
+        useNativeDriver: false,
+      }),
+    ]).start(() => {
+      Animated.parallel([
+        Animated.timing(tempOpacity, {
+          toValue: ANIMATIONS.tempOpacity.start,
+          duration: 80,
+          useNativeDriver: false,
+        }),
+        Animated.timing(tempTransform, {
+          toValue: ANIMATIONS.tempTransform.start,
+          duration: 60,
+          useNativeDriver: false,
+        }),
+      ]).start(() => {
+        Animated.timing(locationTranslateY, {
+          toValue: ANIMATIONS.locationTranslateY.start,
+          duration: 50,
+          useNativeDriver: false,
+        }).start(() => {
+          Animated.parallel([
+            Animated.timing(shortenDescriptionTransform, {
+              toValue: ANIMATIONS.shortenDescriptionTransform.start,
+              duration: 50,
+              useNativeDriver: false,
+            }),
+            Animated.timing(shortenDescriptionOpacity, {
+              toValue: ANIMATIONS.shortenDescriptionOpacity.start,
+              duration: 30,
+              useNativeDriver: false,
+            }),
+          ]).start();
+        });
+      });
+    });
+  };
+
+  const fadeOutAnimateValues = () => {
+    Animated.parallel([
+      Animated.timing(containerMaxHeight, {
+        toValue: ANIMATIONS.containerMaxHeight.end,
+        duration: 60,
+        useNativeDriver: false,
+      }),
+      Animated.timing(descriptionOpacity, {
+        toValue: ANIMATIONS.descriptionOpacity.end,
+        duration: 50,
+        useNativeDriver: false,
+      }),
+      Animated.timing(descriptionTransform, {
+        toValue: ANIMATIONS.descriptionTransform.end,
+        duration: 50,
+        useNativeDriver: false,
+      }),
+    ]).start(() => {
+      Animated.parallel([
+        Animated.timing(tempOpacity, {
+          toValue: ANIMATIONS.tempOpacity.end,
+          duration: 30,
+          useNativeDriver: false,
+        }),
+        Animated.timing(tempTransform, {
+          toValue: ANIMATIONS.tempTransform.end,
+          duration: 50,
+          useNativeDriver: false,
+        }),
+      ]).start(() => {
+        Animated.timing(locationTranslateY, {
+          toValue: ANIMATIONS.locationTranslateY.end,
+          duration: 50,
+          useNativeDriver: false,
+        }).start(() => {
+          Animated.timing(shortenDescriptionOpacity, {
+            toValue: ANIMATIONS.shortenDescriptionOpacity.end,
+            duration: 70,
+            useNativeDriver: false,
+          }).start(() => {
+            Animated.timing(shortenDescriptionTransform, {
+              toValue: ANIMATIONS.shortenDescriptionTransform.end,
+              duration: 50,
+              useNativeDriver: false,
+            }).start();
+          });
+        });
+      });
+    });
+  };
+
   const handleOnScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
       useNativeDriver: false,
     })(e);
+
+    if ((scrollY as any)._value < 20) {
+      fadeInAnimatedValues();
+      return;
+    }
+
+    fadeOutAnimateValues();
   };
 
   React.useEffect(() => {
@@ -132,7 +278,19 @@ export const Sections = ({ location }: SectionsPropsType) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <DynamicHeader animatedValue={scrollY} data={header} />
+      <DynamicHeader
+        data={header}
+        animatedValues={{
+          containerMaxHeight,
+          locationTranslateY,
+          shortenDescriptionOpacity,
+          shortenDescriptionTransform,
+          tempOpacity,
+          tempTransform,
+          descriptionOpacity,
+          descriptionTransform,
+        }}
+      />
       <SectionList
         scrollEventThrottle={5}
         onScroll={handleOnScroll}

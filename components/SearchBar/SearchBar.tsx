@@ -11,19 +11,27 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import { addLocation, getSearchSuggestions } from "@/api";
-import { ParsedSuggestionsType, SuggestionsType } from "@/types";
+import { getSearchSuggestions } from "@/api";
+import {
+  LocationType,
+  ParsedSuggestionsType,
+  ParsedSuggestionType,
+  SuggestionsType,
+} from "@/types";
 
 import { parseSuggestions } from "./parser";
 import { styles } from "./styles";
+import { ModalScreenPropsType } from "@/screens/ModalScreen/ModalScreen";
 
 export type SearchBarPropsType = {
+  setModalProps: (props: ModalScreenPropsType) => void;
   menuScreenOverflowOpacity: Animated.Value;
   menuScreenPressableOpacity: Animated.Value;
   menuScreenInnerContainerTranslateY: Animated.Value;
 };
 
 export const SearchBar = ({
+  setModalProps,
   menuScreenOverflowOpacity,
   menuScreenPressableOpacity,
   menuScreenInnerContainerTranslateY,
@@ -171,8 +179,21 @@ export const SearchBar = ({
     textInputRef.current?.blur();
   };
 
-  const handleSuggestionPress = async (city: string) => {
-    // OPEN MODAL LOGIC
+  const handleSuggestionPress = (item: ParsedSuggestionType) => {
+    setModalProps({
+      type: "sections",
+      isVisible: true,
+      isTransparent: true,
+      animationType: "slide",
+      config: {
+        sections: {
+          location: {
+            ...item,
+            id: item.name,
+          },
+        },
+      },
+    });
   };
 
   return (
@@ -217,7 +238,7 @@ export const SearchBar = ({
           renderItem={({ item }) => (
             <Pressable
               style={styles.flatListItem}
-              onPress={() => handleSuggestionPress(item.city)}
+              onPress={() => handleSuggestionPress(item)}
             >
               {!isLoading && (
                 <Text style={styles.flatListItemText}>{item.displayText}</Text>

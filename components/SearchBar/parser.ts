@@ -12,18 +12,18 @@ export const parseSuggestions = (
     .split("@");
 
   return data.reduce((acc: ParsedSuggestionsType, item) => {
-    item.cities.forEach((city) => {
+    item.cities.forEach((name) => {
       const isFound = lowerCaseQueryArr.every(
         (queryPart) =>
           item.country.toLowerCase().includes(queryPart) ||
           item.iso2.toLowerCase().includes(queryPart) ||
           item.iso3.toLowerCase().includes(queryPart) ||
-          city.toLowerCase().includes(queryPart)
+          name.toLowerCase().includes(queryPart)
       );
 
       if (isFound) {
-        const displayText = `${item.country}, ${city}`;
-        acc.push({ city, displayText });
+        const displayText = `${item.country}, ${name}`;
+        acc.push({ name, displayText });
       }
     });
 
