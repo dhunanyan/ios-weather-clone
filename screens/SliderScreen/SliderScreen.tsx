@@ -26,21 +26,10 @@ export const SliderScreen = ({
 }: SliderScreenPropsType) => {
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  const handleOnScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    Animated.event(
-      [
-        {
-          nativeEvent: {
-            contentOffset: {
-              x: scrollX,
-            },
-          },
-        },
-      ],
-      {
-        useNativeDriver: false,
-      }
-    )(event);
+  const handleOnScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+      useNativeDriver: false,
+    })(e);
   };
 
   return (

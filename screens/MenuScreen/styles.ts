@@ -24,8 +24,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    paddingHorizontal: 16,
     paddingTop: 60,
+  },
+  paddingHorizontal: {
+    paddingHorizontal: 16,
   },
   pressableContainer: {
     zIndex: 1,

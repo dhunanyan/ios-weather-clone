@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     marginTop: 5,
     position: "relative",
     zIndex: 1,
+    paddingHorizontal: 16,
   },
   searchBarContainer: {
     flex: 1,

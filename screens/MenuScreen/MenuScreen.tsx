@@ -46,7 +46,11 @@ export const MenuScreen = ({
         ]}
       >
         <Animated.View
-          style={[styles.pressableContainer, { opacity: pressableOpacity }]}
+          style={[
+            styles.pressableContainer,
+            styles.paddingHorizontal,
+            { opacity: pressableOpacity },
+          ]}
         >
           <Pressable onPress={onGoBackPress} style={styles.pressable}>
             <Entypo name="chevron-left" size={24} style={styles.icon} />

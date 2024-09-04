@@ -1,15 +1,32 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "@/config";
+import { Dimensions, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    minWidth: "100%",
-    position: "relative",
-    minHeight: 92,
-    borderRadius: 20,
+    height: 120,
     marginVertical: 5,
-    backgroundColor: COLORS.dark.backgroundSecondary,
+  },
+  containerContent: {
+    height: "100%",
+    minWidth: "100%",
+    paddingHorizontal: 16,
+  },
+  swipeContainer: {
+    width: Dimensions.get("window").width - 16 * 2,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignContent: "center",
+    height: "100%",
+    position: "relative",
+    borderRadius: 20,
     overflow: "hidden",
+  },
+  deleteBox: {
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: 80,
   },
   imageBackground: {
     flex: 1,
@@ -71,5 +88,14 @@ export const styles = StyleSheet.create({
     fontWeight: "500",
     marginTop: 32,
     color: "#f1f1f1",
+  },
+  deleteContainer: {
+    width: 80,
+    height: "100%",
+    backgroundColor: "#fa4b4b",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    marginLeft: 5,
   },
 });

@@ -2,6 +2,8 @@ import React from "react";
 import {
   ActivityIndicator,
   Animated,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   SafeAreaView,
   SectionList,
   Text,
@@ -56,6 +58,12 @@ export const Sections = ({ location }: SectionsPropsType) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [isError, setIsError] = React.useState<boolean>(false);
   const scrollY = React.useRef(new Animated.Value(0)).current;
+
+  const handleOnScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+      useNativeDriver: false,
+    })(e);
+  };
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -127,10 +135,7 @@ export const Sections = ({ location }: SectionsPropsType) => {
       <DynamicHeader animatedValue={scrollY} data={header} />
       <SectionList
         scrollEventThrottle={5}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false }
-        )}
+        onScroll={handleOnScroll}
         showsVerticalScrollIndicator={false}
         style={styles.sectionList}
         sections={sections}

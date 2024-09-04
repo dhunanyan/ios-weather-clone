@@ -44,8 +44,11 @@ export const HomeScreen = () => {
 
   const handlePanResponder = React.useMemo(() => {
     return PanResponder.create({
-      onMoveShouldSetPanResponder: (_, gestureState) => {
-        return Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
+      onMoveShouldSetPanResponder: (event, gestureState) => {
+        if (event.nativeEvent.pageX <= 50) {
+          return Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
+        }
+        return false;
       },
       onPanResponderMove: (_, gestureState) => {
         const newValue = Math.min(Math.max(gestureState.dx / width, 0), 1);
