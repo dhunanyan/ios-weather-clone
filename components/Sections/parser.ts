@@ -12,7 +12,7 @@ export const parseToDynamicHeader = (
   { days: [{ minTemp, maxTemp, description, temp, conditions }] }: WeatherType,
   location: LocationType
 ): DynamicHeaderDataType => ({
-  location: location.displayName,
+  location: location.displayText,
   description: `From ${minTemp}° to ${maxTemp}° ${description}`,
   shortenDescription: `${temp}° | ${conditions}`,
   temp,

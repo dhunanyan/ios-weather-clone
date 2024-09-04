@@ -12,7 +12,7 @@ export const parseToMenuPressable = (
   { days: [{ minTemp, maxTemp, temp, conditions }] }: WeatherType,
   location: LocationType
 ): MenuPressableDataType => ({
-  location: location.displayName,
+  location: location.displayText,
   time: new Date().toLocaleString().split(" ")[1].slice(0, -3),
   conditions: conditions,
   temp: `${temp}°`,

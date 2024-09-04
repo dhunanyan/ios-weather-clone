@@ -68,7 +68,7 @@ export type WeatherType = {
 };
 
 export type LocationType = {
-  displayName: string;
+  displayText: string;
   name: string;
   id: string;
 };

@@ -10,6 +10,7 @@ import {
   Pressable,
   Text,
   View,
+  Vibration,
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Audio } from "expo-av";
@@ -70,6 +71,8 @@ export const MenuPressable = ({
   };
 
   const handleDeletePress = async () => {
+    Vibration.vibrate(10);
+
     const soundObject = new Audio.Sound();
     await soundObject.loadAsync(AUDIOS.delete);
     await soundObject.playAsync();

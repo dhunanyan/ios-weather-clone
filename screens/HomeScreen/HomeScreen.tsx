@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   Animated,
   Dimensions,
-  FlatList,
   PanResponder,
   Text,
   View,
@@ -94,7 +93,7 @@ export const HomeScreen = () => {
           locationsData.unshift({
             id: "CURRENT_LOCATION",
             name: userLocation,
-            displayName: "Current Location",
+            displayText: "Current Location",
           });
         }
 
