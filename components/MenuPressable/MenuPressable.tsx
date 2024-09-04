@@ -150,14 +150,14 @@ export const MenuPressable = ({
           intensity={26}
           style={[
             styles.contentContainer,
-            isLoading || !isError || data === null
+            isLoading || isError || data === null
               ? styles.contentContainerNotLoaded
               : {},
           ]}
         >
           {isLoading ? (
             <ActivityIndicator size="large" color={COLORS.dark.title} />
-          ) : !isError || data === null ? (
+          ) : isError || data === null ? (
             <View style={styles.errorContainer}>
               <AntDesign style={styles.errorIcon} name="warning" size={16} />
               <Text style={styles.errorText}>Failed to load weather data</Text>
