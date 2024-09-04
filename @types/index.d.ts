@@ -1,5 +1,6 @@
 declare module "*.jpg";
 declare module "*.png";
+declare module "*.mp3";
 
 declare module "@env" {
   export const WEATHER_API_KEY: string;

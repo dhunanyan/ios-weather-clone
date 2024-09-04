@@ -1,4 +1,5 @@
 import { ImageSourcePropType, Platform } from "react-native";
+import { AVPlaybackSource } from "expo-av";
 
 import background from "./assets/images/background.jpg";
 
@@ -13,6 +14,8 @@ import partlyCloudyNight from "./assets/images/weather/partly-cloudy-night.png";
 import rain from "./assets/images/weather/rain.png";
 import snow from "./assets/images/weather/snow.png";
 import wind from "./assets/images/weather/wind.png";
+
+import deleteSound from "./assets/audio/delete.mp3";
 
 export const COLORS = {
   light: {
@@ -75,3 +78,9 @@ export const IS_PLATFORM = {
 
 export const FOOTER_HEIGHT = IS_PLATFORM.IOS ? 44 + 36 : 44;
 export const HEADER_OFFSET = 110;
+
+type AudiosType = { [key: string]: AVPlaybackSource };
+
+export const AUDIOS = {
+  delete: deleteSound,
+} as AudiosType;

@@ -12,6 +12,7 @@ import {
   View,
 } from "react-native";
 import { BlurView } from "expo-blur";
+import { Audio } from "expo-av";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -21,7 +22,7 @@ import { getWeather, removeLocation } from "@/api";
 
 import { MenuPressableDataType, parseToMenuPressable } from "./parser";
 import { LocationType, WeatherType } from "@/types";
-import { COLORS, IMAGES } from "@/config";
+import { COLORS, IMAGES, AUDIOS } from "@/config";
 
 import { styles } from "./styles";
 
@@ -68,10 +69,14 @@ export const MenuPressable = ({
     }
   };
 
-  const handleDeletePress = () => {
+  const handleDeletePress = async () => {
+    const soundObject = new Audio.Sound();
+    await soundObject.loadAsync(AUDIOS.delete);
+    await soundObject.playAsync();
+
     Animated.timing(scrollViewTranslate, {
       toValue: -Dimensions.get("window").width,
-      duration: 200,
+      duration: 400,
       useNativeDriver: false,
     }).start(() => {
       Animated.timing(scrollViewHeight, {
