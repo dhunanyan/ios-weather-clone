@@ -11,13 +11,23 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import { getSearchSuggestions } from "@/api";
-import { ParsedSuggestionsType } from "@/types";
+import { addLocation, getSearchSuggestions } from "@/api";
+import { ParsedSuggestionsType, SuggestionsType } from "@/types";
 
 import { parseSuggestions } from "./parser";
 import { styles } from "./styles";
 
-export const SearchBar = () => {
+export type SearchBarPropsType = {
+  menuScreenOverflowOpacity: Animated.Value;
+  menuScreenPressableOpacity: Animated.Value;
+  menuScreenInnerContainerTranslateY: Animated.Value;
+};
+
+export const SearchBar = ({
+  menuScreenOverflowOpacity,
+  menuScreenPressableOpacity,
+  menuScreenInnerContainerTranslateY,
+}: SearchBarPropsType) => {
   const [query, setQuery] = React.useState("");
   const [suggestions, setSuggestions] = React.useState<ParsedSuggestionsType>(
     []
@@ -27,28 +37,52 @@ export const SearchBar = () => {
 
   const textInputRef = React.useRef<TextInput>(null);
 
+  const containerMarginBottom = React.useRef(new Animated.Value(10)).current;
   const pressableOpacity = React.useRef(new Animated.Value(0)).current;
   const pressableMaxWidth = React.useRef(new Animated.Value(0)).current;
   const pressableMarginLeft = React.useRef(new Animated.Value(0)).current;
 
   const handleFocus = () => {
     Animated.parallel([
-      Animated.timing(pressableMaxWidth, {
-        toValue: 50,
+      Animated.timing(menuScreenPressableOpacity, {
+        toValue: 0,
         duration: 250,
         useNativeDriver: false,
       }),
-      Animated.timing(pressableMarginLeft, {
-        toValue: 8,
+      Animated.timing(menuScreenOverflowOpacity, {
+        toValue: 1,
         duration: 250,
         useNativeDriver: false,
       }),
     ]).start(() =>
-      Animated.timing(pressableOpacity, {
-        toValue: 1,
-        duration: 150,
-        useNativeDriver: false,
-      }).start()
+      Animated.parallel([
+        Animated.timing(pressableMaxWidth, {
+          toValue: 50,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+        Animated.timing(pressableMarginLeft, {
+          toValue: 8,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+        Animated.timing(containerMarginBottom, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+        Animated.timing(menuScreenInnerContainerTranslateY, {
+          toValue: -50,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+      ]).start(() =>
+        Animated.timing(pressableOpacity, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: false,
+        }).start()
+      )
     );
   };
 
@@ -69,6 +103,26 @@ export const SearchBar = () => {
           duration: 200,
           useNativeDriver: false,
         }),
+        Animated.timing(containerMarginBottom, {
+          toValue: 10,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+        Animated.timing(menuScreenInnerContainerTranslateY, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+        Animated.timing(menuScreenOverflowOpacity, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+        Animated.timing(menuScreenPressableOpacity, {
+          toValue: 1,
+          duration: 250,
+          useNativeDriver: false,
+        }),
       ]).start()
     );
   };
@@ -76,32 +130,33 @@ export const SearchBar = () => {
   const handleSearch = async (text: string) => {
     setQuery(text);
 
-    if (text.length > 1) {
+    if (!text.length) {
       setIsError(false);
+      setIsLoading(false);
       return;
     }
     setIsLoading(true);
 
     try {
       const cachedData = await AsyncStorage.getItem("countries_and_cities");
+
       if (cachedData) {
-        const parsedData = JSON.parse(cachedData) as ParsedSuggestionsType;
-        setSuggestions(parsedData);
+        const parsedData = JSON.parse(cachedData) as SuggestionsType;
+        const parsedSuggestions = parseSuggestions(parsedData, text);
+        setSuggestions(parsedSuggestions);
         setIsError(false);
         setIsLoading(false);
         return;
       }
 
       const suggestionsData = (await getSearchSuggestions()).data;
-      const parsedSuggestions = parseSuggestions(suggestionsData, text);
-
-      setSuggestions(parsedSuggestions);
-
       await AsyncStorage.setItem(
         "countries_and_cities",
-        JSON.stringify(parsedSuggestions)
+        JSON.stringify(suggestionsData)
       );
 
+      const parsedSuggestions = parseSuggestions(suggestionsData, text);
+      setSuggestions(parsedSuggestions);
       setIsError(false);
     } catch (e) {
       setIsError(true);
@@ -116,8 +171,14 @@ export const SearchBar = () => {
     textInputRef.current?.blur();
   };
 
+  const handleSuggestionPress = async (city: string) => {
+    // OPEN MODAL LOGIC
+  };
+
   return (
-    <View style={styles.container}>
+    <Animated.View
+      style={[styles.container, { marginBottom: containerMarginBottom }]}
+    >
       <View style={styles.searchBarContainer}>
         <Animated.View style={styles.textInputContainer}>
           <FontAwesome name="search" size={18} style={styles.searchIcon} />
@@ -126,6 +187,7 @@ export const SearchBar = () => {
             onFocus={handleFocus}
             onBlur={handleBlur}
             style={styles.textInput}
+            placeholderTextColor="#626c80"
             placeholder="Search for cities or countries"
             value={query}
             onChangeText={handleSearch}
@@ -147,18 +209,23 @@ export const SearchBar = () => {
         </Animated.View>
       </View>
 
-      {suggestions.length > 0 && !isLoading && !isError && (
+      {!!query && suggestions.length > 0 && !isError && (
         <FlatList
+          style={styles.flatList}
           data={suggestions}
           keyExtractor={(_, index) => index.toString()}
           renderItem={({ item }) => (
-            <Pressable style={styles.resultItem}>
-              <Text>{item.displayText}</Text>
+            <Pressable
+              style={styles.flatListItem}
+              onPress={() => handleSuggestionPress(item.city)}
+            >
+              {!isLoading && (
+                <Text style={styles.flatListItemText}>{item.displayText}</Text>
+              )}
             </Pressable>
           )}
-          style={styles.resultsList}
         />
       )}
-    </View>
+    </Animated.View>
   );
 };

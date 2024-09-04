@@ -12,6 +12,7 @@ export const styling = (width: number, height: number) =>
       height: height,
       width: width,
       padding: 0,
+      paddingTop: -60,
       backgroundColor: COLORS.dark.background,
     },
     overlay: {

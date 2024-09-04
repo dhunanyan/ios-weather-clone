@@ -123,9 +123,10 @@ export const HomeScreen = () => {
     );
   }
 
+  const offset = 12;
   const menuTranslateX = slideAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, width],
+    outputRange: [0, width + offset],
   });
 
   return (

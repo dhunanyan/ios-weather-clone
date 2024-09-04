@@ -1,14 +1,16 @@
 import { COLORS } from "@/config";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    height: 34,
+    height: 40,
     width: "100%",
-    marginVertical: 5,
+    marginTop: 5,
+    position: "relative",
+    zIndex: 1,
   },
   searchBarContainer: {
     flex: 1,
@@ -27,10 +29,11 @@ export const styles = StyleSheet.create({
     width: "100%",
   },
   searchIcon: {
-    color: COLORS.dark.background,
-    paddingHorizontal: 8,
+    color: "#626c80",
+    paddingLeft: 8,
   },
   textInput: {
+    fontSize: 16,
     width: "100%",
     color: COLORS.dark.title,
     height: 34,
@@ -42,12 +45,22 @@ export const styles = StyleSheet.create({
   cancelPressableText: {
     color: COLORS.dark.title,
   },
-  resultsList: {
-    maxHeight: 200,
+  flatList: {
+    backgroundColor: COLORS.dark.background,
+    position: "absolute",
+    top: 40,
+    left: -16,
+    right: -16,
+    zIndex: 2,
+    height: Dimensions.get("window").height - 40,
+    width: Dimensions.get("window").width,
   },
-  resultItem: {
+  flatListItem: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    backgroundColor: "rgba(0, 0, 0, 0.55)",
+  },
+  flatListItemText: {
+    color: COLORS.dark.title,
   },
 });
