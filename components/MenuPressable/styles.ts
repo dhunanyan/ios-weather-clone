@@ -1,14 +1,29 @@
+import { COLORS } from "@/config";
 import { Dimensions, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    height: 120,
     marginVertical: 5,
   },
   containerContent: {
     height: "100%",
     minWidth: "100%",
     paddingHorizontal: 16,
+  },
+  errorContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorIcon: {
+    color: COLORS.dark.title,
+    marginRight: 10,
+  },
+  errorText: {
+    fontSize: 22,
+    fontWeight: "200",
+    color: COLORS.dark.title,
   },
   swipeContainer: {
     width: Dimensions.get("window").width - 16 * 2,
@@ -42,6 +57,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+  },
+  contentContainerNotLoaded: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
   },
   content: {

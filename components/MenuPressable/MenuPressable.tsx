@@ -1,12 +1,13 @@
 import * as React from "react";
 
 import {
+  ActivityIndicator,
   Animated,
+  Dimensions,
   ImageBackground,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Pressable,
-  ScrollView,
   Text,
   View,
 } from "react-native";
@@ -14,25 +15,35 @@ import { BlurView } from "expo-blur";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
-import { getWeather } from "@/api";
+import { getWeather, removeLocation } from "@/api";
 
 import { MenuPressableDataType, parseToMenuPressable } from "./parser";
-
 import { LocationType, WeatherType } from "@/types";
-import { IMAGES } from "@/config";
+import { COLORS, IMAGES } from "@/config";
+
 import { styles } from "./styles";
 
 export type MenuPressablePropsType = {
   location: LocationType;
+  refetchLocations: () => Promise<void>;
 };
 
-export const MenuPressable = ({ location }: MenuPressablePropsType) => {
+export const MenuPressable = ({
+  location,
+  refetchLocations,
+}: MenuPressablePropsType) => {
   const [data, setData] = React.useState<MenuPressableDataType | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [isError, setIsError] = React.useState<boolean>(false);
+  const [scrollViewDisplay, setScrollViewDisplay] = React.useState<
+    "flex" | "none"
+  >("flex");
 
   const deleteContainerTranslate = React.useRef(new Animated.Value(80)).current;
+  const scrollViewTranslate = React.useRef(new Animated.Value(0)).current;
+  const scrollViewHeight = React.useRef(new Animated.Value(120)).current;
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -57,8 +68,24 @@ export const MenuPressable = ({ location }: MenuPressablePropsType) => {
     }
   };
 
-  const handleDelete = () => {
-    // Call a parent function to delete the item from the list
+  const handleDeletePress = () => {
+    Animated.timing(scrollViewTranslate, {
+      toValue: -Dimensions.get("window").width,
+      duration: 200,
+      useNativeDriver: false,
+    }).start(() => {
+      Animated.timing(scrollViewHeight, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: false,
+      }).start(async () => {
+        setScrollViewDisplay("none");
+        await removeLocation(location);
+        setIsLoading(true);
+        await refetchLocations();
+        setIsLoading(false);
+      });
+    });
   };
 
   React.useEffect(() => {
@@ -98,17 +125,16 @@ export const MenuPressable = ({ location }: MenuPressablePropsType) => {
     fetchData();
   }, [location]);
 
-  if (isLoading) {
-    return <View style={styles.container} />;
-  }
-
-  if (data === null || isError) {
-    return <View style={styles.container}>Error</View>;
-  }
-
   return (
-    <ScrollView
-      style={styles.container}
+    <Animated.ScrollView
+      style={[
+        styles.container,
+        {
+          transform: [{ translateX: scrollViewTranslate }],
+          height: scrollViewHeight,
+          display: scrollViewDisplay,
+        },
+      ]}
       onScroll={handleScroll}
       horizontal
       contentContainerStyle={styles.containerContent}
@@ -120,28 +146,52 @@ export const MenuPressable = ({ location }: MenuPressablePropsType) => {
           resizeMode="stretch"
           style={styles.imageBackground}
         />
-        <BlurView intensity={26} style={styles.contentContainer}>
-          <View style={[styles.content, styles.leftContent]}>
-            <Text style={styles.location}>{data.location}</Text>
-            <Text style={styles.time}>{data.time}</Text>
-            <Text style={styles.conditions}>{data.conditions}</Text>
-          </View>
-          <View style={[styles.content, styles.rightContent]}>
-            <Text style={styles.temp}>{data.temp}</Text>
-            <Text style={styles.minMaxTemp}>{data.minMaxTemp}</Text>
-          </View>
+        <BlurView
+          intensity={26}
+          style={[
+            styles.contentContainer,
+            isLoading || !isError || data === null
+              ? styles.contentContainerNotLoaded
+              : {},
+          ]}
+        >
+          {isLoading ? (
+            <ActivityIndicator size="large" color={COLORS.dark.title} />
+          ) : !isError || data === null ? (
+            <View style={styles.errorContainer}>
+              <AntDesign style={styles.errorIcon} name="warning" size={16} />
+              <Text style={styles.errorText}>Failed to load weather data</Text>
+            </View>
+          ) : (
+            <>
+              <View style={[styles.content, styles.leftContent]}>
+                <Text style={styles.location}>{data.location}</Text>
+                <Text style={styles.time}>{data.time}</Text>
+                <Text style={styles.conditions}>{data.conditions}</Text>
+              </View>
+              <View style={[styles.content, styles.rightContent]}>
+                <Text style={styles.temp}>{data.temp}</Text>
+                <Text style={styles.minMaxTemp}>{data.minMaxTemp}</Text>
+              </View>
+            </>
+          )}
         </BlurView>
       </View>
-      <Animated.View
-        style={[
-          styles.deleteContainer,
-          { transform: [{ translateX: deleteContainerTranslate }] },
-        ]}
-      >
-        <Pressable onPress={handleDelete}>
-          <Ionicons name="trash" size={24} color="white" />
-        </Pressable>
-      </Animated.View>
-    </ScrollView>
+      {location.id !== "CURRENT_LOCATION" &&
+        !isLoading &&
+        data !== null &&
+        !isError && (
+          <Animated.View
+            style={[
+              styles.deleteContainer,
+              { transform: [{ translateX: deleteContainerTranslate }] },
+            ]}
+          >
+            <Pressable onPress={handleDeletePress}>
+              <Ionicons name="trash" size={24} color="white" />
+            </Pressable>
+          </Animated.View>
+        )}
+    </Animated.ScrollView>
   );
 };

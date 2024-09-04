@@ -17,8 +17,9 @@ import { styles } from "./styles";
 export type MenuScreenPropsType = {
   locations: LocationsType;
   translateXValue: Animated.AnimatedInterpolation<string | number>;
-  onGoBackPress: () => void;
   panResponder: PanResponderInstance;
+  onGoBackPress: () => void;
+  refetchLocations: () => Promise<void>;
 };
 
 export const MenuScreen = ({
@@ -26,6 +27,7 @@ export const MenuScreen = ({
   translateXValue,
   onGoBackPress,
   panResponder,
+  refetchLocations,
 }: MenuScreenPropsType) => {
   const innerContainerTranslateY = React.useRef(new Animated.Value(0)).current;
   const pressableOpacity = React.useRef(new Animated.Value(1)).current;
@@ -68,7 +70,12 @@ export const MenuScreen = ({
           contentContainerStyle={styles.flatListContentContainer}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <MenuPressable location={item} />}
+          renderItem={({ item }) => (
+            <MenuPressable
+              location={item}
+              refetchLocations={refetchLocations}
+            />
+          )}
         />
         <Animated.View style={[styles.overlay, { opacity: overflowOpacity }]} />
       </Animated.View>

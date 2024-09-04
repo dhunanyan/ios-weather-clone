@@ -62,8 +62,19 @@ export const HomeScreen = () => {
     });
   }, []);
 
+  const refetch = async () => {
+    const cachedData = await AsyncStorage.getItem("weather_locations");
+    if (!cachedData) {
+      setLocations([]);
+      return;
+    }
+
+    const parsedData = JSON.parse(cachedData) as LocationsType;
+    setLocations(parsedData);
+  };
+
   React.useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
         setIsLoading(true);
 
@@ -101,9 +112,7 @@ export const HomeScreen = () => {
       } finally {
         setIsLoading(false);
       }
-    };
-
-    fetchData();
+    })();
   }, []);
 
   if (isLoading) {
@@ -140,6 +149,7 @@ export const HomeScreen = () => {
       />
       {menuTranslateX && (
         <MenuScreen
+          refetchLocations={refetch}
           panResponder={handlePanResponder}
           onGoBackPress={() => toggleMenu(1)}
           translateXValue={menuTranslateX}
