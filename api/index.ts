@@ -1,4 +1,10 @@
-export { getWeather } from "./weather";
+export {
+  getHeaderSectionData,
+  getAlertSectionData,
+  getHourSectionData,
+  getDaySectionData,
+  getMenuSectionData,
+} from "./weather";
 export {
   getLocations,
   getUserLocation,
@@ -6,4 +12,4 @@ export {
   addLocation,
   removeLocation,
 } from "./locations";
-export { getSearchSuggestions } from "./suggestions";
+export { getLocationSuggestions } from "./suggestions";

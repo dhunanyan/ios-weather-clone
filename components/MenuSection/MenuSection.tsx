@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import {
   ActivityIndicator,
   Animated,
@@ -15,33 +14,32 @@ import {
 import { BlurView } from "expo-blur";
 import { Audio } from "expo-av";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-import { getWeather, removeLocation } from "@/api";
+import { getMenuSectionData, removeLocation } from "@/api";
 
-import { MenuPressableDataType, parseToMenuPressable } from "./parser";
-import { LocationType, WeatherType } from "@/types";
+import { LocationType, MenuSectionDataType } from "@/types";
 import { COLORS, IMAGES, AUDIOS } from "@/config";
 
 import { styling } from "./styles";
 
-export type MenuPressablePropsType = {
+export type MenuSectionPropsType = {
   location: LocationType;
   refetchLocations: () => Promise<void>;
 };
 
-export const MenuPressable = ({
+export const MenuSection = ({
   location,
   refetchLocations,
-}: MenuPressablePropsType) => {
+}: MenuSectionPropsType) => {
   const { width } = Dimensions.get("window");
   const styles = styling(width);
 
-  const [data, setData] = React.useState<MenuPressableDataType | null>(null);
+  const [data, setData] = React.useState<MenuSectionDataType | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [isError, setIsError] = React.useState<boolean>(false);
+
   const [scrollViewDisplay, setScrollViewDisplay] = React.useState<
     "flex" | "none"
   >("flex");
@@ -100,41 +98,41 @@ export const MenuPressable = ({
   };
 
   React.useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
         setIsLoading(true);
-        const cachedData = await AsyncStorage.getItem(
-          `weather_menu_${location.id}`
-        );
 
-        if (cachedData) {
-          const parsedData = JSON.parse(cachedData) as MenuPressableDataType;
+        const menuSectionData = await getMenuSectionData(location);
 
-          setData(parsedData);
-          setIsLoading(false);
-          return;
-        }
-
-        const response = (await getWeather(location.name)) as WeatherType;
-        const menuPressableData = parseToMenuPressable(response, location);
-
-        await AsyncStorage.setItem(
-          `weather_menu_${location.id}`,
-          JSON.stringify(menuPressableData)
-        );
-
-        setData(menuPressableData);
-        setIsLoading(false);
+        setData(menuSectionData);
       } catch (error) {
         setIsError(true);
         console.log(error);
       } finally {
         setIsLoading(false);
       }
-    };
-
-    fetchData();
+    })();
   }, [location]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.activityIndicatorContainer}>
+          <ActivityIndicator size="large" color={COLORS.dark.title} />
+        </View>
+      </View>
+    );
+  }
+
+  if (isError || data === null) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.errorTextContainer}>
+          <Text>Something went wrong</Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <Animated.ScrollView

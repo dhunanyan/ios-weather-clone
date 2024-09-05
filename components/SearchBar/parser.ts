@@ -1,9 +1,9 @@
-import { ParsedSuggestionsType, SuggestionsType } from "@/types";
+import { LocationsType, SuggestionsType } from "@/types";
 
 export const parseSuggestions = (
   data: SuggestionsType,
   query: string
-): ParsedSuggestionsType => {
+): LocationsType => {
   const lowerCaseQueryArr = query
     .toLowerCase()
     .replaceAll(/,\s*/gi, "@")
@@ -11,7 +11,7 @@ export const parseSuggestions = (
     .replaceAll(/@+/gi, "@")
     .split("@");
 
-  return data.reduce((acc: ParsedSuggestionsType, item) => {
+  return data.reduce((acc: LocationsType, item) => {
     item.cities.forEach((name) => {
       const isFound = lowerCaseQueryArr.every(
         (queryPart) =>
@@ -23,7 +23,7 @@ export const parseSuggestions = (
 
       if (isFound) {
         const displayText = `${item.country}, ${name}`;
-        acc.push({ name, displayText });
+        acc.push({ id: name, name, displayText });
       }
     });
 

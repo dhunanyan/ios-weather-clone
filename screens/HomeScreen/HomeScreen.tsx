@@ -4,13 +4,14 @@ import {
   Animated,
   Dimensions,
   PanResponder,
+  Pressable,
   Text,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { getLocations, getUserLocation } from "@/api";
+import { getLocations } from "@/api";
 import { COLORS, IMAGES } from "@/config";
 
 import { SliderScreen } from "../SliderScreen";
@@ -91,33 +92,9 @@ export const HomeScreen = () => {
       try {
         setIsLoading(true);
 
-        const cachedData = await AsyncStorage.getItem("weather_locations");
-        if (cachedData) {
-          const parsedData = JSON.parse(cachedData) as LocationsType;
-          setLocations(parsedData);
-          setIsLoading(false);
-          setIsError(false);
-          return;
-        }
         const locationsData = await getLocations();
 
-        const userLocation = await getUserLocation();
-
-        if (userLocation !== null) {
-          locationsData.unshift({
-            id: "CURRENT_LOCATION",
-            name: userLocation,
-            displayText: "Current Location",
-          });
-        }
-
-        await AsyncStorage.setItem(
-          "weather_locations",
-          JSON.stringify(locationsData)
-        );
-
         setLocations(locationsData);
-        setIsLoading(false);
         setIsError(false);
       } catch (error) {
         setIsError(true);
@@ -179,6 +156,17 @@ export const HomeScreen = () => {
       >
         {location !== null && <Sections location={location} />}
       </ModalScreen>
+
+      <Pressable
+        style={styles.deleteCache}
+        onPress={() =>
+          (async () => {
+            await AsyncStorage.clear();
+          })()
+        }
+      >
+        <Text style={styles.deleteCacheText}>Delete cache</Text>
+      </Pressable>
     </GestureHandlerRootView>
   );
 };

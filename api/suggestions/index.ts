@@ -1,1 +1,1 @@
-export { getSearchSuggestions } from "./getSearchSuggestions";
+export { getLocationSuggestions } from "./getLocationSuggestions";

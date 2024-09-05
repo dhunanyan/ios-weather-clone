@@ -35,4 +35,26 @@ export const styling = (width: number, height: number) =>
       height: height,
       width: width,
     },
+    deleteCache: {
+      backgroundColor: "#303030",
+      position: "absolute",
+      zIndex: 99999999,
+      top: "auto",
+      bottom: 60,
+      left: 30,
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 8,
+      // Box shadow for iOS
+      shadowColor: "#000",
+      shadowOffset: { width: -5, height: 4 },
+      shadowOpacity: 0.5,
+      shadowRadius: 12,
+      // Elevation for Android
+      elevation: 10,
+    },
+    deleteCacheText: {
+      color: "#f1f1f1",
+      fontWeight: "700",
+    },
   });

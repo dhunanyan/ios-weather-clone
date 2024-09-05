@@ -39,10 +39,23 @@ export const styles = StyleSheet.create({
     textAlign: "justify",
     marginVertical: 10,
   },
-  info: {
+  footer: {
     color: COLORS.dark.title,
     fontSize: 15,
     opacity: 0.7,
     textAlign: "justify",
+  },
+  activityIndicatorContainer: {
+    marginTop: 16,
+    paddingHorizontal: 16,
+    minWidth: "100%",
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  errorTextContainer: {
+    marginTop: 16,
+    paddingHorizontal: 16,
+    minWidth: "100%",
   },
 });

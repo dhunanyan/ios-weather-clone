@@ -8,17 +8,11 @@ import {
   TextInput,
   View,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import { getSearchSuggestions } from "@/api";
-import {
-  LocationType,
-  ParsedSuggestionsType,
-  ParsedSuggestionType,
-  SuggestionsType,
-} from "@/types";
+import { getLocationSuggestions } from "@/api";
+import { LocationsType, LocationType } from "@/types";
 
 import { parseSuggestions } from "./parser";
 import { styling } from "./styles";
@@ -40,9 +34,7 @@ export const SearchBar = ({
   const styles = styling(width, height);
 
   const [query, setQuery] = React.useState("");
-  const [suggestions, setSuggestions] = React.useState<ParsedSuggestionsType>(
-    []
-  );
+  const [suggestions, setSuggestions] = React.useState<LocationsType>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
 
@@ -146,27 +138,12 @@ export const SearchBar = ({
       setIsLoading(false);
       return;
     }
+
     setIsLoading(true);
 
     try {
-      const cachedData = await AsyncStorage.getItem("countries_and_cities");
-
-      if (cachedData) {
-        const parsedData = JSON.parse(cachedData) as SuggestionsType;
-        const parsedSuggestions = parseSuggestions(parsedData, text);
-        setSuggestions(parsedSuggestions);
-        setIsError(false);
-        setIsLoading(false);
-        return;
-      }
-
-      const suggestionsData = (await getSearchSuggestions()).data;
-      await AsyncStorage.setItem(
-        "countries_and_cities",
-        JSON.stringify(suggestionsData)
-      );
-
-      const parsedSuggestions = parseSuggestions(suggestionsData, text);
+      const data = await getLocationSuggestions();
+      const parsedSuggestions = parseSuggestions(data, text);
       setSuggestions(parsedSuggestions);
       setIsError(false);
     } catch (e) {
@@ -182,11 +159,8 @@ export const SearchBar = ({
     textInputRef.current?.blur();
   };
 
-  const handleSuggestionPress = (suggestion: ParsedSuggestionType) => {
-    setLocation({
-      ...suggestion,
-      id: suggestion.name,
-    });
+  const handleSuggestionPress = (suggestion: LocationType) => {
+    setLocation(suggestion);
   };
 
   return (

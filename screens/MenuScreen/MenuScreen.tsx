@@ -8,7 +8,7 @@ import {
   Text,
 } from "react-native";
 
-import { MenuPressable, SearchBar } from "@/components";
+import { MenuSection, SearchBar } from "@/components";
 import { LocationsType, LocationType } from "@/types";
 
 import Entypo from "@expo/vector-icons/Entypo";
@@ -78,10 +78,7 @@ export const MenuScreen = ({
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
-            <MenuPressable
-              location={item}
-              refetchLocations={refetchLocations}
-            />
+            <MenuSection location={item} refetchLocations={refetchLocations} />
           )}
         />
         <Animated.View style={[styles.overlay, { opacity: overflowOpacity }]} />

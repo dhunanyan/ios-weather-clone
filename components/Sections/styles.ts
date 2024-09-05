@@ -14,17 +14,4 @@ export const styling = (width: number) =>
       minWidth: "100%",
       height: "100%",
     },
-    activityIndicatorContainer: {
-      marginTop: 16,
-      paddingHorizontal: 16,
-      minWidth: "100%",
-      flex: 1,
-      alignContent: "center",
-      justifyContent: "center",
-    },
-    errorTextContainer: {
-      marginTop: 16,
-      paddingHorizontal: 16,
-      minWidth: "100%",
-    },
   });

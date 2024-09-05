@@ -31,6 +31,19 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 10,
   },
+  activityIndicatorContainer: {
+    marginTop: 16,
+    paddingHorizontal: 16,
+    minWidth: "100%",
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  errorTextContainer: {
+    marginTop: 16,
+    paddingHorizontal: 16,
+    minWidth: "100%",
+  },
 });
 
 export const sliderStyling = (index: number) =>

@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     fontWeight: IS_PLATFORM.ANDROID ? "300" : 300,
     lineHeight: 30,
     textAlign: "center",
+    maxWidth: "80%",
   },
   temp: {
     color: COLORS.dark.title,
@@ -35,5 +36,18 @@ export const styles = StyleSheet.create({
     color: COLORS.dark.subtitle,
     maxWidth: "80%",
     marginVertical: 5,
+  },
+  activityIndicatorContainer: {
+    marginTop: 16,
+    paddingHorizontal: 16,
+    minWidth: "100%",
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  errorTextContainer: {
+    marginTop: 16,
+    paddingHorizontal: 16,
+    minWidth: "100%",
   },
 });
