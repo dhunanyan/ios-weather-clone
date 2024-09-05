@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "@/config";
+import { COLORS, SLIDER_SCREEN_BACKGROUND_Z_INDEX } from "@/config";
 
 export const styling = (width: number, height: number) =>
   StyleSheet.create({

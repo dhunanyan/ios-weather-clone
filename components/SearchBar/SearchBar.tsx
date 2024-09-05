@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   Animated,
+  Dimensions,
   FlatList,
   Pressable,
   Text,
@@ -20,22 +21,24 @@ import {
 } from "@/types";
 
 import { parseSuggestions } from "./parser";
-import { styles } from "./styles";
-import { ModalScreenPropsType } from "@/screens/ModalScreen/ModalScreen";
+import { styling } from "./styles";
 
 export type SearchBarPropsType = {
-  setModalProps: (props: ModalScreenPropsType) => void;
   menuScreenOverflowOpacity: Animated.Value;
   menuScreenPressableOpacity: Animated.Value;
   menuScreenInnerContainerTranslateY: Animated.Value;
+  setLocation: (newLocation: LocationType) => void;
 };
 
 export const SearchBar = ({
-  setModalProps,
   menuScreenOverflowOpacity,
   menuScreenPressableOpacity,
   menuScreenInnerContainerTranslateY,
+  setLocation,
 }: SearchBarPropsType) => {
+  const { width, height } = Dimensions.get("window");
+  const styles = styling(width, height);
+
   const [query, setQuery] = React.useState("");
   const [suggestions, setSuggestions] = React.useState<ParsedSuggestionsType>(
     []
@@ -179,20 +182,10 @@ export const SearchBar = ({
     textInputRef.current?.blur();
   };
 
-  const handleSuggestionPress = (item: ParsedSuggestionType) => {
-    setModalProps({
-      type: "sections",
-      isVisible: true,
-      isTransparent: true,
-      animationType: "slide",
-      config: {
-        sections: {
-          location: {
-            ...item,
-            id: item.name,
-          },
-        },
-      },
+  const handleSuggestionPress = (suggestion: ParsedSuggestionType) => {
+    setLocation({
+      ...suggestion,
+      id: suggestion.name,
     });
   };
 

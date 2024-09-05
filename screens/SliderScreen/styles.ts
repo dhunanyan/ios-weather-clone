@@ -1,3 +1,4 @@
+import { SLIDER_SCREEN_BACKGROUND_Z_INDEX } from "@/config";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -13,6 +14,6 @@ export const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     left: 0,
-    zIndex: -1,
+    zIndex: SLIDER_SCREEN_BACKGROUND_Z_INDEX,
   },
 });

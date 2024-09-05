@@ -11,28 +11,39 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { getLocations, getUserLocation } from "@/api";
-import { COLORS } from "@/config";
+import { COLORS, IMAGES } from "@/config";
 
 import { SliderScreen } from "../SliderScreen";
 import { MenuScreen } from "../MenuScreen";
 
-import { LocationsType } from "@/types";
+import { LocationsType, LocationType } from "@/types";
 
 import { styling } from "./styles";
-import { ModalScreen, ModalScreenPropsType } from "../ModalScreen/ModalScreen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ModalScreen } from "../ModalScreen";
+import { Sections } from "@/components";
 
 export const HomeScreen = () => {
   const { width, height } = Dimensions.get("window");
   const styles = styling(width, height);
 
   const [locations, setLocations] = React.useState<LocationsType>([]);
+  const [location, setLocation] = React.useState<LocationType | null>(null);
+  const [isModalVisible, setModalVisible] = React.useState(false);
+
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isError, setIsError] = React.useState<boolean>(false);
-  const [modalProps, setModalProps] =
-    React.useState<ModalScreenPropsType | null>(null);
 
   const slideAnim = React.useRef(new Animated.Value(1)).current;
   const menuVisible = React.useRef(1);
+
+  React.useEffect(() => {
+    if (location === null) {
+      return;
+    }
+
+    setModalVisible(true);
+  }, [location]);
 
   const toggleMenu = (value: number) => {
     menuVisible.current = value;
@@ -144,22 +155,30 @@ export const HomeScreen = () => {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <SliderScreen
-        locations={locations}
-        onMenuIconPress={() => toggleMenu(0)}
-      />
-      {menuTranslateX && (
-        <MenuScreen
-          setModalProps={setModalProps}
-          refetchLocations={refetch}
-          panResponder={handlePanResponder}
-          onGoBackPress={() => toggleMenu(1)}
-          translateXValue={menuTranslateX}
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+        <SliderScreen
           locations={locations}
+          onMenuIconPress={() => toggleMenu(0)}
         />
-      )}
-      {modalProps !== null && <ModalScreen {...modalProps} />}
-    </SafeAreaView>
+        {menuTranslateX && (
+          <MenuScreen
+            setLocation={setLocation}
+            refetchLocations={refetch}
+            panResponder={handlePanResponder}
+            onGoBackPress={() => toggleMenu(1)}
+            translateXValue={menuTranslateX}
+            locations={locations}
+          />
+        )}
+      </SafeAreaView>
+      <ModalScreen
+        onClose={() => setModalVisible(false)}
+        backgroundImageSource={IMAGES.background}
+        isVisible={isModalVisible}
+      >
+        {location !== null && <Sections location={location} />}
+      </ModalScreen>
+    </GestureHandlerRootView>
   );
 };

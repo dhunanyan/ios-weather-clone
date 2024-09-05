@@ -2,6 +2,7 @@ import React from "react";
 import {
   ActivityIndicator,
   Animated,
+  Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
   SafeAreaView,
@@ -32,7 +33,7 @@ import {
 } from "./types";
 import type { LocationType, WeatherType } from "@/types";
 
-import { styles } from "./styles";
+import { styling } from "./styles";
 
 export type SectionsPropsType = {
   location: LocationType;
@@ -42,7 +43,7 @@ const ANIMATIONS = {
   containerMaxHeight: { start: 250, end: 50 },
   locationTranslateY: { start: 25, end: 0 },
   shortenDescriptionOpacity: { start: 0, end: 1 },
-  shortenDescriptionTransform: { start: 10, end: 0 },
+  shortenDescriptionTransform: { start: 15, end: 0 },
   tempOpacity: { start: 1, end: 0 },
   tempTransform: { start: 20, end: -5 },
   descriptionOpacity: { start: 1, end: 0 },
@@ -62,6 +63,9 @@ const renderSectionItem = (data: SectionDataType, type: string) => {
 };
 
 export const Sections = ({ location }: SectionsPropsType) => {
+  const { width } = Dimensions.get("window");
+  const styles = styling(width);
+
   const [sections, setSections] = React.useState<SectionsType | []>([]);
   const [header, setHeader] = React.useState<DynamicHeaderDataType | null>(
     null
@@ -138,7 +142,7 @@ export const Sections = ({ location }: SectionsPropsType) => {
             }),
             Animated.timing(shortenDescriptionOpacity, {
               toValue: ANIMATIONS.shortenDescriptionOpacity.start,
-              duration: 30,
+              duration: 50,
               useNativeDriver: false,
             }),
           ]).start();

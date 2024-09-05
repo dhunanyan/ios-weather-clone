@@ -25,7 +25,7 @@ import { MenuPressableDataType, parseToMenuPressable } from "./parser";
 import { LocationType, WeatherType } from "@/types";
 import { COLORS, IMAGES, AUDIOS } from "@/config";
 
-import { styles } from "./styles";
+import { styling } from "./styles";
 
 export type MenuPressablePropsType = {
   location: LocationType;
@@ -36,6 +36,9 @@ export const MenuPressable = ({
   location,
   refetchLocations,
 }: MenuPressablePropsType) => {
+  const { width } = Dimensions.get("window");
+  const styles = styling(width);
+
   const [data, setData] = React.useState<MenuPressableDataType | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [isError, setIsError] = React.useState<boolean>(false);
@@ -78,7 +81,7 @@ export const MenuPressable = ({
     await soundObject.playAsync();
 
     Animated.timing(scrollViewTranslate, {
-      toValue: -Dimensions.get("window").width,
+      toValue: -width,
       duration: 400,
       useNativeDriver: false,
     }).start(() => {

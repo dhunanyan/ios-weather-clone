@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   Animated,
+  Dimensions,
   FlatList,
   PanResponderInstance,
   Pressable,
@@ -8,30 +9,32 @@ import {
 } from "react-native";
 
 import { MenuPressable, SearchBar } from "@/components";
-import { LocationsType } from "@/types";
+import { LocationsType, LocationType } from "@/types";
 
 import Entypo from "@expo/vector-icons/Entypo";
 
-import { styles } from "./styles";
-import { ModalScreenPropsType } from "../ModalScreen/ModalScreen";
+import { styling } from "./styles";
 
 export type MenuScreenPropsType = {
   locations: LocationsType;
   translateXValue: Animated.AnimatedInterpolation<string | number>;
   panResponder: PanResponderInstance;
-  setModalProps: (props: ModalScreenPropsType) => void;
   onGoBackPress: () => void;
   refetchLocations: () => Promise<void>;
+  setLocation: (newLocation: LocationType) => void;
 };
 
 export const MenuScreen = ({
   locations,
   translateXValue,
   panResponder,
-  setModalProps,
   onGoBackPress,
   refetchLocations,
+  setLocation,
 }: MenuScreenPropsType) => {
+  const { height } = Dimensions.get("window");
+  const styles = styling(height);
+
   const innerContainerTranslateY = React.useRef(new Animated.Value(0)).current;
   const pressableOpacity = React.useRef(new Animated.Value(1)).current;
   const overflowOpacity = React.useRef(new Animated.Value(0)).current;
@@ -63,7 +66,7 @@ export const MenuScreen = ({
           </Pressable>
         </Animated.View>
         <SearchBar
-          setModalProps={setModalProps}
+          setLocation={setLocation}
           menuScreenOverflowOpacity={overflowOpacity}
           menuScreenPressableOpacity={pressableOpacity}
           menuScreenInnerContainerTranslateY={innerContainerTranslateY}

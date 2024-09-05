@@ -1,12 +1,22 @@
 import * as React from "react";
-import { ActivityIndicator, SafeAreaView, View } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  SafeAreaView,
+  View,
+} from "react-native";
 import { COLORS } from "@/config";
-import { styles } from "./styles";
+import { styling } from "./styles";
 
-export const CustomSplashScreen = () => (
-  <SafeAreaView style={styles.container}>
-    <View style={styles.activityIndicatorContainer}>
-      <ActivityIndicator size="large" color={COLORS.dark.title} />
-    </View>
-  </SafeAreaView>
-);
+export const CustomSplashScreen = () => {
+  const { width, height } = Dimensions.get("window");
+  const styles = styling(width, height);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={COLORS.dark.title} />
+      </View>
+    </SafeAreaView>
+  );
+};

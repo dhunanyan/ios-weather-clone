@@ -1,1 +1,0 @@
-export { LOCATIONS } from "./LOCATIONS";

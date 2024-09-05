@@ -84,3 +84,8 @@ type AudiosType = { [key: string]: AVPlaybackSource };
 export const AUDIOS = {
   delete: deleteSound,
 } as AudiosType;
+
+export const SLIDER_SCREEN_BACKGROUND_Z_INDEX = -1;
+export const CUSTOM_SPLASH_SCREEN_Z_INDEX = 1;
+export const MENU_SCREEN_Z_INDEX = 5;
+export const MODAL_SCREEN_Z_INDEX = 10;
