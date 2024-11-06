@@ -1,4 +1,7 @@
 # iOS Weather Clone
+
+A minimalistic weather app built with React Native, Expo, and TypeScript, fetching real-time weather data from the OpenWeather API. This app is designed for iOS and provides users with current weather conditions in their location or other searched cities.
+
 ![Logo](./docs/weather-ios.png "Logo")
 
 # Cloning the project

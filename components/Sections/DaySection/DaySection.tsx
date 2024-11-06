@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 import { BlurView } from "expo-blur";
-import { LinearGradient } from "expo-linear-gradient";
 
 import { DaySectionDataType, LocationType } from "@/types";
 import { styles, sliderStyling } from "./styles";
@@ -82,7 +81,7 @@ export const DaySection = ({ location }: DaySectionPropsType) => {
                 </View>
                 <View style={sliderStyles.range}>
                   <Text style={sliderStyles.minTemp}>{item.minTemp}°</Text>
-                  <LinearGradient
+                  {/* <LinearGradient
                     start={{ x: 0, y: 0.5 }}
                     end={{ x: 1, y: 0.5 }}
                     colors={[
@@ -90,7 +89,7 @@ export const DaySection = ({ location }: DaySectionPropsType) => {
                       `rgba(247, ${item.maxTemp * 3}, 1, 1)`,
                     ]}
                     style={sliderStyles.progressBar}
-                  />
+                  /> */}
                   <Text style={sliderStyles.maxTemp}>{item.maxTemp}°</Text>
                 </View>
               </View>
