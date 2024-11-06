@@ -9,13 +9,13 @@ A minimalistic weather app built with React Native, Expo, and TypeScript, fetchi
 Clone the project simply by running:
 
 ```bash
-git clone https://github.com/dhunanyan/weather-app.git
+git clone https://github.com/dhunanyan/ios-weather-cloe.git
 ```
 
 OR
 
 ```bash
-git clone git@github.com:dhunanyan/weather-app.git
+git clone git@github.com:dhunanyan/ios-weather-cloe.git
 ```
 
 # How to install project dependencies?
@@ -23,7 +23,7 @@ git clone git@github.com:dhunanyan/weather-app.git
 Go to your terminal and run the following commands below in yhe root of your project:
 
 ```bash
-cd ./weather-app
+cd ./ios-weather-cloe
 nvm use
 yarn install
 ```
