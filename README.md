@@ -4,6 +4,10 @@ A minimalistic weather app built with React Native, Expo, and TypeScript, fetchi
 
 ![Logo](./docs/logo.png "Logo")
 
+# Quick preview
+
+https://github.com/user-attachments/assets/ec0aa7ba-52ba-48c4-9925-29ca9f144772
+
 # Cloning the project
 
 Clone the project simply by running:
