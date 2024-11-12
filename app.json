@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Weather",
-    "slug": "weather",
+    "name": "iOS Weather Clone",
+    "slug": "ios-weather-clone",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
